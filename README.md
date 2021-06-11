@@ -13,6 +13,6 @@ yarn serve
 yarn build
 ```
 
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+For detailed explanation on how things work, checkout the [guide](https://vuejs.org/v2/guide/installation.html) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
 [![forthebadge](http://forthebadge.com/images/badges/made-with-vue.svg)](http://forthebadge.com)
