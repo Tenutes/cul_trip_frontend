@@ -18,6 +18,7 @@ export default {
   --col-primary: #C29494;
   --col-grey: #DDD;
   --col-grey-light: #F6F5F8;
+  --col-grey-dark: #ADADAD;
   --col-dark: #282A31;
   --col-dark-hover: #2D2E38;
   --col-blue: #2771FF;
@@ -31,6 +32,9 @@ html, body {
   font-family: "TT Firs Neue", sans-serif;
   color: var(--col-dark);
   box-sizing: border-box;
+}
+
+body {
   overflow-x: hidden;
 }
 
@@ -99,14 +103,71 @@ p {
     &:hover,
     &:focus {
       color: white;
-      background-color: var(--col-dark-hover);
-      border-color: var(--col-dark-hover);
+      background-color: var(--col-dark);
+      border-color: var(--col-dark);
     }
 
     &:active {
       color: white;
-      background-color: var(--col-dark-hover);
-      border-color: var(--col-dark-hover);
+      background-color: var(--col-dark);
+      border-color: var(--col-dark);
+    }
+  }
+
+  &--default {
+    color: var(--col-dark);
+    background-color: transparent;
+    border-color: var(--col-grey);
+
+    &:hover,
+    &:focus {
+      color: var(--col-dark);
+      background-color: transparent;
+      border-color: var(--col-grey);
+    }
+
+    &:active {
+      color: var(--col-dark);
+      background-color: transparent;
+      border-color: var(--col-grey);
+    }
+  }
+
+  &--secondary {
+    color: white;
+    background-color: var(--col-blue);
+    border-color: var(--col-blue);
+
+    &:hover,
+    &:focus {
+      color: white;
+      background-color: var(--col-blue);
+      border-color: var(--col-blue);
+    }
+
+    &:active {
+      color: white;
+      background-color: var(--col-blue);
+      border-color: var(--col-blue);
+    }
+  }
+
+  &--danger {
+    color: var(--col-orange);
+    background-color: transparent;
+    border-color: transparent;
+
+    &:hover,
+    &:focus {
+      color: var(--col-orange);
+      background-color: transparent;
+      border-color: transparent;
+    }
+
+    &:active {
+      color: var(--col-orange);
+      background-color: transparent;
+      border-color: transparent;
     }
   }
 }
@@ -179,6 +240,130 @@ p {
     .el-radio-button {
       &__inner {
         border-radius: 10px;
+      }
+    }
+  }
+}
+
+.el-tabs {
+  margin: 0 -20px;
+
+  &__active-bar,
+  &__nav-prev,
+  &__nav-next {
+    display: none;
+  }
+
+  &__header {
+    margin: 0 0 30px;
+  }
+
+  &__nav {
+    padding: 0;
+  }
+
+  &__nav-scroll {
+    overflow: visible;
+  }
+
+  &__nav-wrap {
+    &.is-scrollable {
+      padding: 0;
+    }
+
+    &::after {
+      height: 1px;
+      background-color: var(--col-grey-light);
+    }
+  }
+
+  &__item {
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 26px;
+    color: var(--col-grey-dark);
+    padding: 0 20px 0 0;
+
+    &.is-active {
+      color: var(--col-dark);
+    }
+  }
+
+  &--top {
+    .el-tabs {
+      &__item.is-top {
+        &:nth-child(2) {
+          padding-left: 20px;
+        }
+
+        &:last-child {
+          padding-right: 20px;
+        }
+      }
+    }
+  }
+}
+
+
+.el-date-editor {
+  padding-top: 0;
+  padding-bottom: 0;
+
+  &:first-child {
+    .el-input {
+      &__inner {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+    }
+  }
+
+  &:last-child {
+    margin-left: -1px;
+
+    .el-input {
+      &__inner {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+    }
+  }
+
+
+  .el-input {
+    &__inner {
+      text-align: center;
+      padding: 0 15px
+    }
+  }
+
+  .el-icon-date {
+    visibility: hidden;
+  }
+
+  .el-range {
+    &__icon,
+    &__close-icon {
+      visibility: hidden;
+    }
+  }
+
+  .el-range-separator {
+    background-color: var(--col-grey);
+    width: 1px;
+    height: 100%;
+    padding: 0;
+  }
+
+  .el-range-input {
+    flex-grow: 1;
+    width: auto;
+  }
+
+  &--daterange {
+    &.el-input {
+      &__inner {
+        width: 100%;
       }
     }
   }

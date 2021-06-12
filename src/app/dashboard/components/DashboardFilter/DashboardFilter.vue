@@ -1,42 +1,229 @@
 <script>
+import InputChoose from '../../../common/InputChoose';
+import IconBase from '../../../common/svg/IconBase';
+import IconSearch from '../../../common/svg/IconSearch';
+
+
+const emptyFormData = () => ({
+  type: null,
+  dayTime: null,
+  lineType: null,
+  address: null,
+  whenStart: null,
+  whenEnd: null,
+  sphere: null,
+  placements: null,
+  payment: null,
+});
+
 export default {
   name: 'DashboardFilter',
-  components: {},
+  components: { InputChoose, IconBase, IconSearch },
   props: {},
   data() {
-    return {};
+    return {
+      formData: {
+        type: null,
+        dayTime: null,
+        lineType: null,
+        address: null,
+        whenStart: null,
+        whenEnd: null,
+        ...emptyFormData(),
+      },
+      activeTab: 'date',
+    };
   },
-  computed: {},
-  watch: {},
-  created() {
+  methods: {
+    reset() {
+      this.formData = { ...emptyFormData() };
+    },
+    submit() {
+
+    },
+    isDisabledEnd(date) {
+      return this.formData.whenStart && date < this.formData.whenStart;
+    },
+    isDisabledStart(date) {
+      return this.formData.whenEnd && date > this.formData.whenEnd;
+    },
   },
-  mounted() {
-  },
-  updated() {
-  },
-  methods: {},
 };
 </script>
 
 <template>
   <div class="dashboard-filter">
-      <form class="form">
-        <div class="form__group"></div>
-        <div class="form__group"></div>
-        <div class="form__group"></div>
-        <div class="form__group"></div>
-        <div class="form__group"></div>
-        <div class="form__group"></div>
-        <div class="form__group"></div>
-        <div class="form__group"></div>
-        <div class="form__group"></div>
-        <div class="form__group"></div>
-      </form>
+    <div class="dashboard-filter__category">
+      <input-choose
+        :items="['музей', 'спорт', 'дети', 'прогулки']"
+        v-model="formData.type"
+      />
+    </div>
+    <div class="dashboard-filter__tabs">
+      <el-tabs v-model="activeTab">
+        <el-tab-pane label="Дата и место" name="date">
+          <div class="dashboard-filter__block">
+            <h2 class="dashboard-filter__block-title">Когда?</h2>
+            <div class="dashboard-filter__block-item">
+              <el-date-picker
+                type="date"
+                v-model="formData.whenStart"
+                placeholder="От"
+                :picker-options="{
+                  disabledDate: isDisabledStart,
+                }"
+                firstDayOfWeek="1"
+              >
+              </el-date-picker>
+              <el-date-picker
+                type="date"
+                v-model="formData.whenEnd"
+                placeholder="До"
+                :picker-options="{
+                  disabledDate: isDisabledEnd,
+                }"
+                firstDayOfWeek="1"
+              >
+              </el-date-picker>
+            </div>
+            <input-choose
+              :items="['сегодня', 'завтра', 'утро', 'день', 'вечер']"
+              v-model="formData.dayTime"
+              :multiple="true"
+              class="in-tabs"
+            />
+          </div>
+          <div class="dashboard-filter__block dashboard-filter__block--padded">
+            <h2 class="dashboard-filter__block-title">Где?</h2>
+            <el-input
+              class="dashboard-filter__search"
+              type="search"
+              v-model="formData.address"
+              placeholder="Адрес"
+            >
+              <icon-base
+                slot="prefix"
+                class="dashboard-filter__search-icon"
+                view-box="0 0 14 14"
+                width="14"
+                height="14"
+              >
+                <icon-search/>
+              </icon-base>
+            </el-input>
+            <input-choose
+              :items="['онлайн', 'оффлайн']"
+              v-model="formData.lineType"
+              class="full-items"
+            />
+          </div>
+        </el-tab-pane>
+        <el-tab-pane label="Мероприятие" name="event">
+          <div class="dashboard-filter__block">
+            <h2 class="dashboard-filter__block-title">Сфера</h2>
+            <input-choose
+              :items="['образование', 'мой район', 'московское долголетие']"
+              v-model="formData.sphere"
+              class="in-tabs"
+            />
+          </div>
+          <div class="dashboard-filter__block">
+            <h2 class="dashboard-filter__block-title">Участие</h2>
+            <input-choose
+              :items="['дети', 'для лиц с ограниченными возможностями', 'открытый воздух', 'зритель', 'участие в процессе']"
+              v-model="formData.placements"
+              :multiple="true"
+              :breakable="true"
+              class="in-tabs dashboard-filter__block-element"
+            />
+            <input-choose
+              :items="['бесплатно', 'платно']"
+              v-model="formData.payment"
+              class="in-tabs full-items"
+            />
+          </div>
+        </el-tab-pane>
+        <el-tab-pane label="Маршрут" name="route"></el-tab-pane>
+      </el-tabs>
+    </div>
+    <div class="dashboard-filter__action">
+      <el-button @click="submit" class="dashboard-filter__action-btn" type="secondary">Поиск</el-button>
+      <el-button @click="reset" class="dashboard-filter__action-btn" type="danger">Сбросить все фильтры</el-button>
+    </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .dashboard-filter {
+  padding: 20px 20px 80px;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 60px);
+  background-color: #FFF;
+  z-index: 100;
 
+  &__category {
+    margin-bottom: 50px;
+  }
+
+  &__block {
+    margin-bottom: 40px;
+
+    &--padded {
+      padding: 0 20px;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__search {
+    margin-bottom: 20px;
+  }
+
+  &__search-icon {
+    height: 100%;
+    text-align: center;
+    transition: all .3s;
+    line-height: 40px;
+  }
+
+  &__block-title {
+    text-align: center;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 21px;
+    margin-bottom: 20px;
+  }
+
+  &__block-element {
+    margin-bottom: 20px;
+  }
+
+  &__action {
+    padding: 0 20px;
+  }
+
+  &__action-btn {
+    width: 100%;
+    margin: 0 0 20px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__block-item {
+    padding: 0 20px;
+    margin-bottom: 20px;
+    display: flex;
+  }
+
+  &__tabs {
+    margin-bottom: 40px;
+  }
 }
 </style>

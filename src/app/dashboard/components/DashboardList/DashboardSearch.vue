@@ -1,21 +1,34 @@
 <script>
-import IconSettings from '../../../common/svg/IconSettings';
 import IconBase from '../../../common/svg/IconBase';
+import IconClose from '../../../common/svg/IconClose';
 import IconSearch from '../../../common/svg/IconSearch';
+import IconSettings from '../../../common/svg/IconSettings';
+import DashboardFilter from '../DashboardFilter/DashboardFilter';
 
 export default {
   name: 'DashboardSearch',
-  components: { IconSettings, IconSearch, IconBase },
+  components: {
+    DashboardFilter,
+    IconClose,
+    IconSettings,
+    IconSearch,
+    IconBase,
+  },
   props: {},
   data() {
     return {
       search: null,
+      filterExtended: false,
     };
   },
   watch: {
     search(n) {
-      console.log(n);
       this.$emit('search', n);
+    },
+    filterExtended(n) {
+      if (n) {
+        document.documentElement.style.overflow = n ? 'hidden' : '';
+      }
     },
   },
 };
@@ -29,6 +42,7 @@ export default {
         type="search"
         v-model="search"
         placeholder="Поиск мероприятий"
+        :disabled="filterExtended"
       >
         <icon-base
           slot="prefix"
@@ -41,17 +55,29 @@ export default {
         </icon-base>
       </el-input>
       <el-button
-        type="primary"
+        :type="filterExtended ? 'default' : 'primary'"
         class="dashboard-search__settings"
+        @click="filterExtended =! filterExtended"
       >
         <icon-base
-          view-box="0 0 20 20"
-          width="20"
-          height="20"
+          :view-box="filterExtended ? '0 0 14 14' : '0 0 20 20'"
+          :width="filterExtended ? 14 : 20"
+          :height="filterExtended ? 14 : 20"
         >
-          <icon-settings/>
+          <icon-close v-if="filterExtended"/>
+          <icon-settings v-else/>
         </icon-base>
       </el-button>
+    </div>
+    <div
+      class="dashboard-search__body"
+      :class="{ extended: filterExtended }"
+    >
+      <transition name="fade">
+        <template v-if="filterExtended">
+          <dashboard-filter/>
+        </template>
+      </transition>
     </div>
   </div>
 </template>
@@ -60,6 +86,7 @@ export default {
 .dashboard-search {
   padding: 0 20px;
   margin-bottom: 20px;
+  position: relative;
 
   &__icon {
     height: 100%;
@@ -81,7 +108,22 @@ export default {
     padding-top: 7px;
     padding-bottom: 7px;
     width: 40px;
+    flex-shrink: 0;
     height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
+
+  &__body {
+  }
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+
+.fade-enter, .fade-leave-to {
+  opacity: 0;
 }
 </style>

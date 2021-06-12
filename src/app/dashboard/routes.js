@@ -1,7 +1,7 @@
 export default [
   {
     name: 'dashboard',
-    path: '/dashboard',
+    path: '/',
     component: () => import(/* webpackChunkName: "dashboard" */ './main'),
   },
 ];
