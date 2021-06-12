@@ -31,6 +31,7 @@ html, body {
   font-family: "TT Firs Neue", sans-serif;
   color: var(--col-dark);
   box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 * {

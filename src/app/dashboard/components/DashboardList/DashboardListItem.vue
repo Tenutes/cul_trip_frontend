@@ -44,8 +44,8 @@ export default {
 
 <template>
   <div class="dashboard-list-item">
-    <button class="dashboard-list-item__title">
-      <span>{{ title }}</span>
+    <div class="dashboard-list-item__title">
+      <h2>{{ title }}</h2>
       <icon-base
         class="dashboard-list-item__title-link"
         width="16"
@@ -54,7 +54,7 @@ export default {
       >
         <icon-arrow/>
       </icon-base>
-    </button>
+    </div>
     <div class="dashboard-list-item__swiper">
       <swiper
         :options="options"
@@ -115,7 +115,7 @@ export default {
       margin-bottom: 0;
     }
 
-    span {
+    h2 {
       margin: 0 10px 0 0;
       font-size: 20px;
       line-height: 26px;
@@ -143,7 +143,6 @@ export default {
     margin: 0 -20px;
     width: calc(100% + 40px);
     padding: 0 20px;
-    overflow: hidden;
   }
 
   &__swiper-container {
