@@ -89,6 +89,14 @@ p {
       }
     }
   }
+
+  &.is-disabled {
+    .el-input {
+      &__inner {
+        opacity: .4;
+      }
+    }
+  }
 }
 
 .el-button {

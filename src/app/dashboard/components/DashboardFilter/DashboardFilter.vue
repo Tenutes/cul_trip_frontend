@@ -3,17 +3,27 @@ import InputChoose from '../../../common/InputChoose';
 import IconBase from '../../../common/svg/IconBase';
 import IconSearch from '../../../common/svg/IconSearch';
 
-
-const emptyFormData = () => ({
-  type: null,
+const dateTabFilterData = () => ({
   dayTime: null,
   lineType: null,
   address: null,
   whenStart: null,
   whenEnd: null,
+});
+
+const eventTabFilterData = () => ({
   sphere: null,
   placements: null,
   payment: null,
+});
+
+const routeTabFilterData = () => ({});
+
+const emptyFilterData = () => ({
+  type: null,
+  ...dateTabFilterData(),
+  ...eventTabFilterData(),
+  ...routeTabFilterData(),
 });
 
 export default {
@@ -23,20 +33,31 @@ export default {
   data() {
     return {
       formData: {
-        type: null,
-        dayTime: null,
-        lineType: null,
-        address: null,
-        whenStart: null,
-        whenEnd: null,
-        ...emptyFormData(),
+        ...emptyFilterData(),
       },
       activeTab: 'date',
     };
   },
+  watch: {
+    // activeTab(n) {
+    //   switch (n) {
+    //     case 'date':
+    //       this.formData = { ...this.formData, ...eventTabFilterData(),... };
+    //       break;
+    //     case 'event':
+    //       this.formData = { ...this.formData, ...emptyFilterData() };
+    //       break;
+    //     case 'route':
+    //       this.formData = { ...this.formData, ...emptyFilterData() };
+    //       break;
+    //     default:
+    //       this.formData = { ...emptyFilterData() };
+    //   }
+    // },
+  },
   methods: {
     reset() {
-      this.formData = { ...emptyFormData() };
+      this.formData = { ...emptyFilterData() };
     },
     submit() {
 
