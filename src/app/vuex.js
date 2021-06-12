@@ -1,9 +1,11 @@
 import { isFunction } from 'lodash';
 import { vuex as Dashboard } from './dashboard';
+import { vuex as Events } from './events';
 
 
 const vuex = {
   Dashboard,
+  Events,
 };
 const keys = Object.keys(vuex);
 const modules = keys.reduce(
