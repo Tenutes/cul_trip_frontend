@@ -17,7 +17,8 @@ export default {
 
 <style>
 :root {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
+  --col-primary: #C29494;
 }
 
 #app {

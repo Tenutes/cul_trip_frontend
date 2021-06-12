@@ -29,7 +29,7 @@ export default {
 <style lang="scss" scoped>
 .dashboard-user {
   padding: 0 20px;
-  margin-bottom: 25px;
+  margin-bottom: 15px;
 
   h1, h2 {
     margin: 0;

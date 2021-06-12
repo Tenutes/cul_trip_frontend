@@ -115,14 +115,14 @@ export default {
   }
 
   &__swiper-container {
-    width: calc(100% + 20px);
+    width: 100%;
     overflow: visible;
   }
 
   &__swiper-slide {
     width: 40%;
     margin-right: 25px;
-    background: #C29494;
+    background: var(--col-primary);
     border-radius: 5px;
     padding: 20px;
     color: white;

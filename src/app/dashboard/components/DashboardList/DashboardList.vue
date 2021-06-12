@@ -1,12 +1,16 @@
 <script>
 import DashboardListItem from './DashboardListItem';
 import DashboardUser from './DashboardUser';
+import DashboardSearch from './DashboardSearch';
+import DashboardMenu from './DashboardMenu';
 
 export default {
   name: 'DashboardList',
   components: {
     DashboardListItem,
     DashboardUser,
+    DashboardSearch,
+    DashboardMenu,
   },
   props: {},
   data() {
@@ -31,6 +35,8 @@ export default {
 <template>
   <div class="dashboard-list">
     <dashboard-user/>
+    <dashboard-search/>
+    <dashboard-menu/>
     <dashboard-list-item title="Рекомендации" :slides="[1,2,3]" @click-title-more="clickMore"/>
     <dashboard-list-item title="Попробуйте новое" :slides="[1,2,3]" @click-title-more="clickMore"/>
     <dashboard-list-item title="Подборки" :slides="[1,2,3]" @click-title-more="clickMore"/>
