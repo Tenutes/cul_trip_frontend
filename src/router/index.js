@@ -4,7 +4,7 @@ import { routes as app } from '../app';
 
 Vue.use(Router);
 const routes = [...app];
-
+console.log(app);
 const router = new Router({
   routes,
   mode: 'history',
