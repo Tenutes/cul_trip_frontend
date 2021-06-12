@@ -69,8 +69,10 @@ export default {
             <!--           <img :src="slide.image" :alt="slide.title">-->
             <img src="~@/assets/img/godblessus.png" :alt="slide.title">
             <div class="dashboard-list-item__slide-tags">
-              <p class="dashboard-list-item__slide-tag dashboard-list-item__slide-tag--спорт">Спорт</p>
-              <p class="dashboard-list-item__slide-tag dashboard-list-item__slide-tag--дети">Дети</p>
+              <p class="dashboard-list-item__slide-tag dashboard-list-item__slide-tag--спорт">спорт</p>
+              <p class="dashboard-list-item__slide-tag dashboard-list-item__slide-tag--дети">дети</p>
+              <p class="dashboard-list-item__slide-tag dashboard-list-item__slide-tag--прогулки">прогулки</p>
+              <p class="dashboard-list-item__slide-tag dashboard-list-item__slide-tag--музей">музей</p>
             </div>
           </div>
           <div class="dashboard-list-item__slide-info">
@@ -197,6 +199,7 @@ export default {
     font-weight: 500;
     text-align: center;
     border-radius: 20px;
+    padding: 0 5px;
 
     &--спорт {
       background: var(--col-orange);
@@ -204,6 +207,14 @@ export default {
 
     &--дети {
       background: var(--col-purple);
+    }
+
+    &--музей {
+      background: var(--col-blue-light);
+    }
+
+    &--прогулки {
+      background: var(--col-green);
     }
   }
 

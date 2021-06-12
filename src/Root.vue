@@ -23,6 +23,8 @@ export default {
   --col-blue: #2771FF;
   --col-purple: #6167FF;
   --col-orange: #FF5959;
+  --col-green: #38AF00;
+  --col-blue-light: #4BB4FF;
 
   font-family: "TT Firs Neue", sans-serif;
   color: var(--col-dark);
@@ -43,6 +45,14 @@ p {
     border-color: var(--col-grey);
     font-size: 14px;
     font-weight: 500;
+
+    &[type=search] {
+      appearance: none;
+    }
+
+    &:focus {
+      outline: none;
+    }
   }
 
   &__prefix {
