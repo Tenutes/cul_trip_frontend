@@ -1,10 +1,14 @@
 <script>
 import 'swiper/swiper.scss';
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
+import IconArrow from '../../../common/svg/IconArrow';
+import IconBase from '../../../common/svg/IconBase';
 
 export default {
   name: 'DashboardListItem',
   components: {
+    IconArrow,
+    IconBase,
     Swiper,
     SwiperSlide,
   },
@@ -42,7 +46,14 @@ export default {
   <div class="dashboard-list-item">
     <button class="dashboard-list-item__title">
       <span>{{ title }}</span>
-      <i class="el-icon-right dashboard-list-item__title-link"></i>
+      <icon-base
+        class="dashboard-list-item__title-link"
+        width="16"
+        height="8"
+        view-box="0 0 16 8"
+      >
+        <icon-arrow/>
+      </icon-base>
     </button>
     <div class="dashboard-list-item__swiper">
       <swiper
@@ -52,9 +63,25 @@ export default {
         <swiper-slide
           v-for="(slide, index) in slides"
           :key="index"
-          class="dashboard-list-item__swiper-slide"
+          class="dashboard-list-item__slide"
         >
-          {{ slide }}
+          <div class="dashboard-list-item__slide-image">
+            <!--           <img :src="slide.image" :alt="slide.title">-->
+            <img src="~@/assets/img/godblessus.png" :alt="slide.title">
+            <div class="dashboard-list-item__slide-tags">
+              <p class="dashboard-list-item__slide-tag dashboard-list-item__slide-tag--спорт">Спорт</p>
+              <p class="dashboard-list-item__slide-tag dashboard-list-item__slide-tag--дети">Дети</p>
+            </div>
+          </div>
+          <div class="dashboard-list-item__slide-info">
+            <p class="dashboard-list-item__slide-title">«ЗОЖик» в библиотеке № 194</p>
+            <p class="dashboard-list-item__slide-description">Интенсивы по физкультуре в рамках пятой ежегодной
+              программы городского досуга «Культлето»</p>
+            <div class="dashboard-list-item__slide-action">
+              <p><a href="#" class="dashboard-list-item__slide-link">Библиотека № 194</a></p>
+              <p>22 июня — 24 июня</p>
+            </div>
+          </div>
         </swiper-slide>
       </swiper>
     </div>
@@ -72,9 +99,10 @@ export default {
   }
 
   &__title {
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
+    align-items: center;
     appearance: none;
     padding: 0;
     border: 0;
@@ -87,9 +115,10 @@ export default {
 
     span {
       margin: 0 10px 0 0;
-      line-height: 30px;
-      font-size: 25px;
-      font-weight: bold;
+      font-size: 20px;
+      line-height: 26px;
+      font-weight: 500;
+      color: var(--col-dark);
     }
 
     &:hover,
@@ -105,6 +134,7 @@ export default {
   &__title-link {
     line-height: 30px;
     transition: .25s;
+    color: var(--col-blue);
   }
 
   &__swiper {
@@ -119,17 +149,98 @@ export default {
     overflow: visible;
   }
 
-  &__swiper-slide {
-    width: 40%;
-    margin-right: 25px;
-    background: var(--col-primary);
-    border-radius: 5px;
-    padding: 20px;
-    color: white;
-    height: 100px;
+  &__slide {
+    width: calc(100% - 16px);
+    margin-right: 16px;
 
     &:last-child {
       margin-right: 0;
+    }
+  }
+
+  &__slide-image {
+    position: relative;
+    height: 0;
+    overflow: hidden;
+    padding-top: 51.28%;
+    width: 100%;
+    margin-bottom: 16px;
+
+    img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+  }
+
+  &__slide-tags {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 8px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  &__slide-tag {
+    margin-right: 8px;
+    margin-bottom: 8px;
+    min-width: 70px;
+    font-size: 14px;
+    line-height: 20px;
+    color: white;
+    font-weight: 500;
+    text-align: center;
+    border-radius: 20px;
+
+    &--спорт {
+      background: var(--col-orange);
+    }
+
+    &--дети {
+      background: var(--col-purple);
+    }
+  }
+
+  &__slide-title {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 21px;
+    color: var(--col-dark);
+    margin-bottom: 8px;
+  }
+
+  &__slide-description {
+    font-size: 14px;
+    line-height: 18px;
+    margin-bottom: 8px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__slide-action {
+    display: flex;
+
+    p {
+      margin-right: 20px;
+      font-size: 14px;
+      line-height: 18px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+
+    a {
+      color: var(--col-blue);
+      text-decoration: none;
     }
   }
 }
