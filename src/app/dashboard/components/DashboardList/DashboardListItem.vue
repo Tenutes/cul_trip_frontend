@@ -74,7 +74,7 @@ export default {
   &__title {
     margin-bottom: 15px;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     appearance: none;
     padding: 0;
     border: 0;
@@ -86,7 +86,7 @@ export default {
     }
 
     span {
-      margin: 0 15px 0 0;
+      margin: 0 10px 0 0;
       line-height: 30px;
       font-size: 25px;
       font-weight: bold;

@@ -1,5 +1,8 @@
 import Vue from 'vue';
+import VueRouter from 'vue-router';
+import { sync } from 'vuex-router-sync';
 import Root from './Root.vue';
+import router from './router';
 import store from './store';
 import './registerServiceWorker';
 import httpPlugin from './plugins/http';
@@ -10,9 +13,12 @@ import 'element-ui/lib/theme-chalk/index.css';
 
 Vue.use(httpPlugin, { store });
 Vue.use(ElementUI, { locale });
+Vue.use(VueRouter);
+sync(store, router);
 Vue.config.productionTip = false;
 
 new Vue({
+  router,
   store,
   render: h => h(Root),
 }).$mount('#app');
