@@ -17,7 +17,7 @@ export default {
 
 <style>
 :root {
-
+  font-family: 'Roboto', sans-serif;
 }
 
 #app {

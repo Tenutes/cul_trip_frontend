@@ -28,7 +28,17 @@ export default class YandexMap {
   draw() {
     this.mapObject = new ymaps.Map(this.mapId, {
       center: [55.76, 37.64],
-      zoom: 7
+      zoom: 5,
+      controls: [],
+    }, {
+      restrictMapArea: [
+        [55.994867, 37.084569],
+        [55.398945, 38.125385],
+      ]
     });
+  }
+
+  destroy() {
+    this.mapObject && this.mapObject.destroy();
   }
 }

@@ -1,10 +1,13 @@
 <script>
-import YandexMap from '../../../../classes/YandexMap';
 import DashboardListItem from './DashboardListItem';
+import DashboardUser from './DashboardUser';
 
 export default {
   name: 'DashboardList',
-  components: { DashboardListItem },
+  components: {
+    DashboardListItem,
+    DashboardUser,
+  },
   props: {},
   data() {
     return {
@@ -14,28 +17,35 @@ export default {
   computed: {},
   watch: {},
   mounted() {
-    if (!this.yaMap) {
-      this.yaMap = new YandexMap(this.$refs.map.id);
-    }
   },
   updated() {
   },
-  methods: {},
+  methods: {
+    clickMore(data) {
+      console.log(data);
+    },
+  },
 };
 </script>
 
 <template>
   <div class="dashboard-list">
-    <dashboard-list-item/>
-    <dashboard-list-item/>
-    <dashboard-list-item/>
-    <div class="map" ref="map" id="map"></div>
+    <dashboard-user/>
+    <dashboard-list-item title="Рекомендации" :slides="[1,2,3]" @click-title-more="clickMore"/>
+    <dashboard-list-item title="Попробуйте новое" :slides="[1,2,3]" @click-title-more="clickMore"/>
+    <dashboard-list-item title="Подборки" :slides="[1,2,3]" @click-title-more="clickMore"/>
   </div>
 </template>
 
 <style lang="scss" scoped>
+.dashboard-list {
+  width: 100%;
+  height: 100%;
+  padding: 20px 0;
+}
+
 #map {
-  width: 200px;
-  height: 200px;
+  width: 100%;
+  height: 100%;
 }
 </style>

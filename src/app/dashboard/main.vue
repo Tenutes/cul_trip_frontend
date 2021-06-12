@@ -14,6 +14,6 @@ export default {
 
 <style lang="scss">
 .dashboard {
-  padding: 0 20px;
+  width: 100%;
 }
 </style>
