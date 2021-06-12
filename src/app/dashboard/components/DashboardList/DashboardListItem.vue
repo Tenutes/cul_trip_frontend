@@ -141,7 +141,7 @@ export default {
 
   &__swiper {
     margin: 0 -20px;
-    width: 100%;
+    width: calc(100% + 40px);
     padding: 0 20px;
     overflow: hidden;
   }

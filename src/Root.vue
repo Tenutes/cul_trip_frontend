@@ -25,9 +25,22 @@ export default {
   --col-orange: #FF5959;
   --col-green: #38AF00;
   --col-blue-light: #4BB4FF;
+}
 
+html, body {
   font-family: "TT Firs Neue", sans-serif;
   color: var(--col-dark);
+  box-sizing: border-box;
+}
+
+* {
+  color: inherit;
+  box-sizing: inherit;
+}
+
+::before,
+::after {
+  box-sizing: border-box;
 }
 
 #app {
@@ -53,10 +66,15 @@ p {
     &:focus {
       outline: none;
     }
+
+    &::placeholder {
+      color: var(--col-grey);
+    }
   }
 
   &__prefix {
     left: 13px;
+    color: var(--col-grey);
   }
 
   &--prefix {
