@@ -8,15 +8,12 @@ export default {
       search: null,
     };
   },
-  computed: {},
-  watch: {},
-  created() {
+  watch: {
+    search(n) {
+      console.log(n);
+      this.$emit('search', n);
+    },
   },
-  mounted() {
-  },
-  updated() {
-  },
-  methods: {},
 };
 </script>
 
