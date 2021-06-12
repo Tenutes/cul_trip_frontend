@@ -3,6 +3,7 @@ import Root from './Root.vue';
 import store from './store';
 import './registerServiceWorker';
 import httpPlugin from './plugins/http';
+import 'normalize.css';
 
 Vue.use(httpPlugin, { store });
 Vue.config.productionTip = false;
