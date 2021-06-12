@@ -8,11 +8,17 @@ export default {
   data() {
     return {
       mapObject: null,
+      mapLoading: false,
     };
   },
   mounted() {
     if (!this.mapObject) {
+      this.mapLoading = true;
       this.mapObject = new YandexMap(this.$refs.map.id);
+      this.mapObject.init()
+        .then(() => {
+          this.mapLoading = false;
+        });
     }
   },
   beforeDestroy() {

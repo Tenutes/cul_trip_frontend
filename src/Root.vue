@@ -17,8 +17,13 @@ export default {
 
 <style>
 :root {
-  font-family: "Roboto", sans-serif;
+  font-family: 'TT Firs Neue', sans-serif;
   --col-primary: #C29494;
+}
+
+::before,
+::after {
+  /*font-family: 'TT Firs Neue', sans-serif;*/
 }
 
 #app {

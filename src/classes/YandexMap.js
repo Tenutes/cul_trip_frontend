@@ -5,8 +5,6 @@ export default class YandexMap {
     this.initInterval = null;
     this.mapId = mapId;
     this.mapObject = null;
-
-    this.init();
   }
 
   /**
@@ -14,15 +12,18 @@ export default class YandexMap {
    * Инициализируем карту после готовности яндекс карт
    */
   init() {
-    this.initInterval = setInterval(() => {
-      if (typeof ymaps !== 'undefined') {
-        ymaps.ready(() => {
-          this.draw();
-        });
-        clearInterval(this.initInterval);
-        this.initInterval = null;
-      }
-    }, 1000);
+    return new Promise(res => {
+      this.initInterval = setInterval(() => {
+        if (typeof ymaps !== 'undefined') {
+          ymaps.ready(() => {
+            this.draw();
+          });
+          clearInterval(this.initInterval);
+          this.initInterval = null;
+          res();
+        }
+      }, 1000);
+    });
   }
 
   draw() {
@@ -34,7 +35,7 @@ export default class YandexMap {
       restrictMapArea: [
         [55.994867, 37.084569],
         [55.398945, 38.125385],
-      ]
+      ],
     });
   }
 

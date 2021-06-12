@@ -10,6 +10,8 @@ export default {
       } else if (time < 12) {
         return 'Доброе утро';
       } else if (time < 17) {
+        return 'Добрый день';
+      } else if (time < 24) {
         return 'Добрый вечер';
       } else {
         return 'Доброй ночи';
@@ -40,7 +42,7 @@ export default {
   }
 
   h2 {
-    font-size: 20px;
+    font-size: 18px;
   }
 }
 </style>
