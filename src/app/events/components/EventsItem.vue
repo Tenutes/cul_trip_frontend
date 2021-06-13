@@ -51,6 +51,9 @@ export default {
       return getSrc(src);
     },
     getCroppedText(text) {
+      if (this.showMore) {
+        return text;
+      }
       return getCroppedText(text, 75);
     },
     getDate(event) {
@@ -123,7 +126,7 @@ export default {
           </div>
           <div class="event__body-block">
             <h2 class="event__title">{{ event.title }}</h2>
-            <p class="event__description" v-html="showMore ? event.text : getCroppedText(event.text)"></p>
+            <p class="event__description" v-html="getCroppedText(event.text)"></p>
             <el-button
               type="text"
               v-if="getCroppedText(event.text).length < event.text.length && !showMore && expanded"
