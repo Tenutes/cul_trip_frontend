@@ -2,9 +2,8 @@
 import DashboardListItem from '@/app/dashboard/components/DashboardList/DashboardListItem';
 import YandexMap from '@/classes/YandexMap';
 import { getCroppedText, getEventDate, getSrc } from '@/utils/event';
-import { createScript } from '@/utils/element';
-import { mapActions, mapGetters } from 'vuex';
 import { format, parseISO } from 'date-fns';
+import { mapActions, mapGetters } from 'vuex';
 import IconArrow from '../../common/svg/IconArrow';
 import IconBase from '../../common/svg/IconBase';
 import IconGoogleCalendar from '../../common/svg/IconGoogleCalendar';
@@ -150,9 +149,11 @@ export default {
           class="event__body-inner-content"
           ref="content"
         >
-          <div class="event__image" v-if="expanded">
-            <img :src="getSrc(event.image.src)" :alt="event.title">
-          </div>
+          <transition name="show">
+            <div class="event__image" v-if="expanded">
+              <img :src="getSrc(event.image.src)" :alt="event.title">
+            </div>
+          </transition>
           <div class="event__body-block">
             <h2 class="event__title">{{ event.title }}</h2>
             <p class="event__description" v-html="getCroppedText(event.text)"></p>
@@ -165,103 +166,111 @@ export default {
               <span>Больше...</span>
               <i class="el-icon-arrow-down"></i>
             </el-button>
-            <div class="event__info" v-if="!expanded">
-              <p>{{ getDate(event) }}</p>
-              <p></p>
-            </div>
+            <transition name="show">
+              <div class="event__info" v-if="!expanded">
+                <p>{{ getDate(event) }}</p>
+                <p></p>
+              </div>
+            </transition>
           </div>
-          <template v-if="expanded">
-            <div class="event__body-block">
-              <div class="event__info">
-                <p><b>{{ getDate(event) }}</b></p>
-              </div>
-            </div>
-            <div class="event__social">
-              <el-button
-                type="info"
-              >
-                <icon-base
-                  width="20"
-                  height="20"
-                  view-box="0 0 20 20"
-                >
-                  <icon-share/>
-                </icon-base>
-              </el-button>
-              <el-button
-                type="info"
-                title="Добавить в календарь"
-                class="addeventatc event__add-to-calendar"
-              >
-                <icon-base
-                  width="20"
-                  height="20"
-                  view-box="0 0 20 20"
-                >
-                  <icon-google-calendar/>
-                </icon-base>
-                <span class="start">{{ format(parseISO(event.date_from), 'yyyy-MM-dd HH:mm') }}</span>
-                <span class="end">{{ format(parseISO(event.date_to), 'yyyy-MM-dd HH:mm') }}</span>
-                <span class="timezone">Europe/Moscow</span>
-                <span class="title">{{ event.title }}</span>
-                <!--                <span class="location">Location of the event</span>-->
-              </el-button>
-            </div>
-            <div class="event__body-block event__body-block--no-gutters" v-if="event.recommendations.length">
-              <dashboard-list-item title="Похожие мероприятия" :events="event.recommendations"/>
-            </div>
-            <div class="event__body-block">
-              <div class="event__timeline">
-                <div class="event__timeline-block">
-                  <div class="event__timeline-item event__timeline-item--stop">
-                    <p>Прогулка по Большой Дмитровке в Музей Москвы</p>
-                    <p class="date">16:00 - 18:00</p>
-                  </div>
-                  <div class="event__timeline-item">
-                    <p>15 минут на автобусе</p>
-                  </div>
-                </div>
-                <div class="event__timeline-block">
-                  <div class="event__timeline-item event__timeline-item--stop">
-                    <p>«Сказки в стиле великих художников» в Воронцовском парке</p>
-                    <p class="date">18:30 - 20:30</p>
-                  </div>
-                  <div class="event__timeline-item">
-                    <p>5 минут пешком</p>
-                  </div>
-                </div>
-                <div class="event__timeline-block">
-                  <div class="event__timeline-item event__timeline-item--stop">
-                    <p>Прогулка по Арбату</p>
-                    <p class="date">20:10 - 21:00</p>
-                  </div>
+          <transition-group name="show">
+            <template v-if="expanded">
+              <div class="event__body-block" key="info">
+                <div class="event__info">
+                  <p><b>{{ getDate(event) }}</b></p>
                 </div>
               </div>
-            </div>
-            <div class="event__footer">
-              <el-button
-                class="event__footer-more"
-                type="info"
-              >
-                Подробнее
-              </el-button>
-              <el-button
-                class="event__footer-action"
-                @click="isLiked = !isLiked"
-              >
-                <icon-base
-                  class="event__header-action-icon event__header-action-icon--like"
-                  :class="{isLiked}"
-                  width="20"
-                  height="20"
-                  view-box="0 0 20 20"
-                  :stroke-color="isLiked ? '#FF5959' : '#282A31'"
+              <div class="event__social" key="social">
+                <el-button
+                  type="info"
                 >
-                  <icon-like/>
-                </icon-base>
-              </el-button>
-            </div>
-          </template>
+                  <icon-base
+                    width="20"
+                    height="20"
+                    view-box="0 0 20 20"
+                  >
+                    <icon-share/>
+                  </icon-base>
+                </el-button>
+                <el-button
+                  type="info"
+                  title="Добавить в календарь"
+                  class="addeventatc event__add-to-calendar"
+                >
+                  <icon-base
+                    width="20"
+                    height="20"
+                    view-box="0 0 20 20"
+                  >
+                    <icon-google-calendar/>
+                  </icon-base>
+                  <span class="start">{{ format(parseISO(event.date_from), 'yyyy-MM-dd HH:mm') }}</span>
+                  <span class="end">{{ format(parseISO(event.date_to), 'yyyy-MM-dd HH:mm') }}</span>
+                  <span class="timezone">Europe/Moscow</span>
+                  <span class="title">{{ event.title }}</span>
+                  <!--                <span class="location">Location of the event</span>-->
+                </el-button>
+              </div>
+              <div
+                class="event__body-block event__body-block--no-gutters"
+                v-if="event.recommendations.length"
+                key="recommendations"
+              >
+                <dashboard-list-item title="Похожие мероприятия" :events="event.recommendations"/>
+              </div>
+              <div class="event__body-block" key="timeline">
+                <div class="event__timeline">
+                  <div class="event__timeline-block">
+                    <div class="event__timeline-item event__timeline-item--stop">
+                      <p>Прогулка по Большой Дмитровке в Музей Москвы</p>
+                      <p class="date">16:00 - 18:00</p>
+                    </div>
+                    <div class="event__timeline-item">
+                      <p>15 минут на автобусе</p>
+                    </div>
+                  </div>
+                  <div class="event__timeline-block">
+                    <div class="event__timeline-item event__timeline-item--stop">
+                      <p>«Сказки в стиле великих художников» в Воронцовском парке</p>
+                      <p class="date">18:30 - 20:30</p>
+                    </div>
+                    <div class="event__timeline-item">
+                      <p>5 минут пешком</p>
+                    </div>
+                  </div>
+                  <div class="event__timeline-block">
+                    <div class="event__timeline-item event__timeline-item--stop">
+                      <p>Прогулка по Арбату</p>
+                      <p class="date">20:10 - 21:00</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="event__footer" key="footer">
+                <el-button
+                  class="event__footer-more"
+                  type="info"
+                >
+                  Подробнее
+                </el-button>
+                <el-button
+                  class="event__footer-action"
+                  @click="isLiked = !isLiked"
+                >
+                  <icon-base
+                    class="event__header-action-icon event__header-action-icon--like"
+                    :class="{isLiked}"
+                    width="20"
+                    height="20"
+                    view-box="0 0 20 20"
+                    :stroke-color="isLiked ? '#FF5959' : '#282A31'"
+                  >
+                    <icon-like/>
+                  </icon-base>
+                </el-button>
+              </div>
+            </template>
+          </transition-group>
         </div>
       </div>
     </div>
@@ -620,12 +629,20 @@ export default {
   &__add-to-calendar {
     background-image: none;
     background-color: var(--col-grey-light);
-    box-shadow: none!important;
+    box-shadow: none !important;
     text-shadow: none;
     padding-left: 10px;
     padding-right: 10px;
     border-radius: 10px;
   }
+}
+
+.show-enter-active, .show-leave-active {
+  transition: opacity 1s;
+}
+
+.show-enter, .show-leave-to {
+  opacity: 0;
 }
 </style>
 <style lang="scss">
@@ -639,7 +656,7 @@ export default {
   }
 
   .copyx {
-    display: none!important;
+    display: none !important;
   }
 }
 </style>
