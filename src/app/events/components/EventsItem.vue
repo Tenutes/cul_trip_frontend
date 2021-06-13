@@ -663,12 +663,12 @@ export default {
 
   &__header-tags {
     display: flex;
-    margin: -8px;
+    margin: -2px -8px;
     flex-wrap: wrap;
     justify-content: center;
 
     .tag {
-      margin: 8px;
+      margin: 2px 8px;
     }
   }
 }
