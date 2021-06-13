@@ -15,6 +15,8 @@ export default {
   data() {
     return {
       yaMap: null,
+      filterResults: [],
+      filterLoads: false,
     };
   },
   computed: {
@@ -29,16 +31,15 @@ export default {
     this.loadNewEvents();
     this.loadCompilations();
   },
-  updated() {
-  },
   methods: {
     ...mapActions('Dashboard', [
       'loadRecommendations',
       'loadNewEvents',
       'loadCompilations',
     ]),
-    clickMore(data) {
-      console.log(data);
+    handleFilterLoad(data) {
+      this.filterResults = data;
+      this.filterLoads = true;
     },
   },
 };
@@ -47,12 +48,17 @@ export default {
 <template>
   <div class="dashboard-list">
     <div class="dashboard-list__head">
-      <dashboard-search/>
+      <dashboard-search @filter-loads="handleFilterLoad"/>
       <dashboard-list-menu/>
     </div>
-    <dashboard-list-item title="Рекомендации" :slides="recommendations" @click-title-more="clickMore"/>
-    <dashboard-list-item title="Попробуйте новое" :slides="newEvents" @click-title-more="clickMore"/>
-    <dashboard-list-item title="Подборки" :slides="compilations" @click-title-more="clickMore"/>
+    <template v-if="!filterLoads">
+      <dashboard-list-item title="Рекомендации" :events="recommendations"/>
+      <dashboard-list-item title="Попробуйте новое" :events="newEvents"/>
+      <dashboard-list-item title="Подборки" :events="compilations"/>
+    </template>
+    <template v-else>
+      <dashboard-list-item :swiper="false" title="Результаты поиска" :events="filterResults"/>
+    </template>
   </div>
 </template>
 

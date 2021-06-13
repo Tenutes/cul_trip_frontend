@@ -33,7 +33,6 @@ export default {
 <style lang="scss">
 .events {
   width: 100%;
-  height: 100vh;
   height: var(--vh, 100vh);
 }
 </style>

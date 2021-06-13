@@ -1,9 +1,10 @@
 <script>
+import { mapActions, mapGetters } from 'vuex';
 import InputChoose from '../../../common/InputChoose';
 import IconBase from '../../../common/svg/IconBase';
 import IconSearch from '../../../common/svg/IconSearch';
 import { AGES, DAY_TYPES, WEEK_TYPES } from '../../constants';
-import {mapActions} from 'vuex';
+import { prepareForPythonFormData } from '@/utils/py';
 
 const dateTabFilterData = () => ({
   period_start: null,
@@ -12,7 +13,7 @@ const dateTabFilterData = () => ({
 });
 
 const scheduleTabFilterData = () => ({
-  weekday: null,
+  week_day: null,
 });
 
 const routeTabFilterData = () => ({
@@ -41,6 +42,9 @@ export default {
     };
   },
   computed: {
+    ...mapGetters('Dashboard', [
+      'fetching',
+    ]),
     ages() {
       return AGES;
     },
@@ -83,7 +87,7 @@ export default {
           break;
       }
 
-      return correctData;
+      return prepareForPythonFormData(correctData);
     },
   },
   methods: {
@@ -94,7 +98,10 @@ export default {
       this.formData = { ...emptyFilterData() };
     },
     submit() {
-      this.loadEvents(this.correctFormData);
+      this.loadEvents(this.correctFormData)
+        .then(data => {
+          this.$emit('filter-loads', data)
+        });
     },
     isDisabledEnd(date) {
       return this.formData.period_start && date < this.formData.period_start;
@@ -107,7 +114,7 @@ export default {
 </script>
 
 <template>
-  <div class="dashboard-filter">
+  <div class="dashboard-filter" v-loading="fetching.filter">
     <div class="dashboard-filter__category">
       <input-choose
         class="gapped in-tabs"
@@ -158,7 +165,7 @@ export default {
             <h2 class="dashboard-filter__block-title">Когда я свободен(а)</h2>
             <input-choose
               :items="weekTypes"
-              v-model="formData.weekday"
+              v-model="formData.week_day"
               :multiple="true"
               :breakable="true"
               class="in-tabs"

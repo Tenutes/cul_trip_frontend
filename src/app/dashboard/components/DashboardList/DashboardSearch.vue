@@ -29,6 +29,12 @@ export default {
       document.documentElement.style.overflow = n ? 'hidden' : '';
     },
   },
+  methods: {
+    handleFilterLoad(data) {
+      this.$emit('filter-loads', data);
+      this.filterExtended = false;
+    },
+  },
 };
 </script>
 
@@ -73,7 +79,7 @@ export default {
     >
       <transition name="fade">
         <template v-if="filterExtended">
-          <dashboard-filter/>
+          <dashboard-filter @filter-loads="handleFilterLoad"/>
         </template>
       </transition>
     </div>

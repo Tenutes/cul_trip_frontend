@@ -18,16 +18,20 @@ export default {
       type: String,
       required: true,
     },
-    slides: {
+    events: {
       type: Array,
       required: true,
+    },
+    swiper: {
+      type: Boolean,
+      default: true,
     },
   },
   data() {
     return {
       options: {
         autoUpdate: true,
-        slidesPerView: 'auto',
+        eventsPerView: 'auto',
       },
     };
   },
@@ -66,19 +70,22 @@ export default {
         <icon-arrow/>
       </icon-base>
     </div>
-    <div class="dashboard-list-item__swiper">
+    <div
+      v-if="swiper"
+      class="dashboard-list-item__swiper"
+    >
       <swiper
         :options="options"
         class="dashboard-list-item__swiper-container"
       >
         <swiper-slide
-          v-for="(slide, index) in slides"
+          v-for="(event, index) in events"
           :key="index"
           class="dashboard-list-item__slide"
         >
-          <router-link class="dashboard-list-item__slide-link" tag="a" :to="{name: 'event', params: { id: slide.id }}"/>
+          <router-link class="dashboard-list-item__slide-link" tag="a" :to="{name: 'event', params: { id: event.id }}"/>
           <div class="dashboard-list-item__slide-image">
-            <img :src="getSrc(slide.image.src)" :alt="slide.title">
+            <img :src="getSrc(event.image.src)" :alt="event.title">
             <div class="dashboard-list-item__slide-tags">
               <p class="tag tag--спорт">спорт</p>
               <p class="tag tag--дети">дети</p>
@@ -87,15 +94,43 @@ export default {
             </div>
           </div>
           <div class="dashboard-list-item__slide-info">
-            <p class="dashboard-list-item__slide-title">{{ slide.title }}</p>
-            <p class="dashboard-list-item__slide-description" v-html="getCroppedText(slide.text)">
+            <p class="dashboard-list-item__slide-title">{{ event.title }}</p>
+            <p class="dashboard-list-item__slide-description" v-html="getCroppedText(event.text)">
             </p>
             <div class="dashboard-list-item__slide-action">
-              <p>{{ getDate(slide) }}</p>
+              <p>{{ getDate(event) }}</p>
             </div>
           </div>
         </swiper-slide>
       </swiper>
+    </div>
+    <div
+      v-else
+      class="dashboard-list-item__list"
+    >
+      <div
+        v-for="event in events"
+        class="dashboard-list-item__list-item"
+      >
+        <router-link class="dashboard-list-item__slide-link" tag="a" :to="{name: 'event', params: { id: event.id }}"/>
+        <div class="dashboard-list-item__slide-image">
+          <img :src="getSrc(event.image.src)" :alt="event.title">
+          <div class="dashboard-list-item__slide-tags">
+            <p class="tag tag--спорт">спорт</p>
+            <p class="tag tag--дети">дети</p>
+            <p class="tag tag--прогулки">прогулки</p>
+            <p class="tag tag--музей">музей</p>
+          </div>
+        </div>
+        <div class="dashboard-list-item__slide-info">
+          <p class="dashboard-list-item__slide-title">{{ event.title }}</p>
+          <p class="dashboard-list-item__slide-description" v-html="getCroppedText(event.text)">
+          </p>
+          <div class="dashboard-list-item__slide-action">
+            <p>{{ getDate(event) }}</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -242,6 +277,19 @@ export default {
     a {
       color: var(--col-blue);
       text-decoration: none;
+    }
+  }
+
+  &__list {
+  }
+
+  &__list-item {
+    width: 100%;
+    margin-bottom: 40px;
+    position: relative;
+
+    &:last-child {
+      margin-bottom: 0;
     }
   }
 }
