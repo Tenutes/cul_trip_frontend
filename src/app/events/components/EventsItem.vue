@@ -635,5 +635,9 @@ export default {
   .addeventatc_icon {
     display: none;
   }
+
+  .copyx {
+    display: none!important;
+  }
 }
 </style>
