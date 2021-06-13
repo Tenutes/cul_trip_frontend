@@ -15,6 +15,7 @@ export default {
   props: {},
   data() {
     return {
+      id: null,
       isLiked: false,
       mapObject: null,
       mapInitializing: false,
@@ -28,25 +29,40 @@ export default {
       'event',
     ]),
   },
-  async created() {
-    const { id } = this.$route.params;
-    await this.loadEvent(id).then(() => {
-      if (!this.event) {
-        this.$route.push({ name: 'main' });
-      }
-    });
+  watch: {
+    $route: {
+      deep: true,
+      async handler(n) {
+        const { id } = n.params;
+
+        if (id !== this.id) {
+          await this.onIdUpdate(id);
+        }
+      },
+    },
   },
-  mounted() {
-    if (!this.mapObject) {
-      this.mapInitializing = true;
-      this.mapObject = new YandexMap(this.$refs.map.id);
-      this.mapObject.init().finally(() => this.mapInitializing = false);
-    }
+  async mounted() {
+    const { id } = this.$route.params;
+    await this.onIdUpdate(id);
   },
   methods: {
     ...mapActions('Events', [
       'loadEvent',
     ]),
+    async onIdUpdate(id) {
+      this.id = id;
+      await this.loadEvent(id).then(() => {
+        if (!this.event) {
+          this.$route.push({ name: 'main' });
+        }
+      });
+
+      if (!this.mapObject) {
+        this.mapInitializing = true;
+        this.mapObject = new YandexMap(this.$refs.map.id);
+        this.mapObject.init().finally(() => this.mapInitializing = false);
+      }
+    },
     getSrc(src) {
       return getSrc(src);
     },
@@ -64,6 +80,7 @@ export default {
     },
     handleSwipeBottom() {
       this.expanded = false;
+      this.$refs.content.scrollTop = 0;
     },
   },
 };
@@ -120,6 +137,7 @@ export default {
         <div
           v-if="event"
           class="event__body-inner-content"
+          ref="content"
         >
           <div class="event__image" v-if="expanded">
             <img :src="getSrc(event.image.src)" :alt="event.title">
