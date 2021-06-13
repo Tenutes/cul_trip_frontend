@@ -31,12 +31,13 @@ export const loadCompilations = ({ dispatch }) => {
     });
 };
 
-export const loadEventsBySearch = ({ dispatch }, search) => {
-  dispatch('setFetching', { filed: 'search', value: true });
+export const loadEvents = ({ dispatch }, params) => {
+  dispatch('setFetching', { filed: 'filter', value: true });
   return http
-    .get('/events', { params: search })
+    .get('/events', { params })
     .then(({ data }) => {
-      dispatch('setFetching', { filed: 'search', value: false });
+      console.log(data);
+      dispatch('setFetching', { filed: 'filter', value: false });
       return data;
     });
 };

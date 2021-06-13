@@ -3,6 +3,7 @@ export default {
   newEvents: [],
   compilations: [],
   fetching: {
+    filter: true,
     recommendations: false,
     newEvents: false,
     compilations: false,

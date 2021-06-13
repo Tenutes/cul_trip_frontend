@@ -293,7 +293,7 @@ p {
   }
 
   &__header {
-    margin: 0 0 30px;
+    margin: 0 0 20px;
   }
 
   &__nav {

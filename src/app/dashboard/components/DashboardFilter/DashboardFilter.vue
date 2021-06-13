@@ -2,28 +2,29 @@
 import InputChoose from '../../../common/InputChoose';
 import IconBase from '../../../common/svg/IconBase';
 import IconSearch from '../../../common/svg/IconSearch';
-import { AGES, DAY_TYPES } from '../../constants';
+import { AGES, DAY_TYPES, WEEK_TYPES } from '../../constants';
+import {mapActions} from 'vuex';
 
 const dateTabFilterData = () => ({
-  day_time: null,
-  line_type: null,
-  address: null,
   period_start: null,
   period_end: null,
+  day_time: null,
 });
 
-const eventTabFilterData = () => ({
-  sphere: null,
-  placements: null,
-  payment: null,
+const scheduleTabFilterData = () => ({
+  weekday: null,
 });
 
-const routeTabFilterData = () => ({});
+const routeTabFilterData = () => ({
+  address: null,
+});
 
 const emptyFilterData = () => ({
   restriction_age: null,
+  payment: null,
+  event_type: null,
   ...dateTabFilterData(),
-  ...eventTabFilterData(),
+  ...scheduleTabFilterData(),
   ...routeTabFilterData(),
 });
 
@@ -46,30 +47,54 @@ export default {
     dayTypes() {
       return DAY_TYPES;
     },
-  },
-  watch: {
-    // activeTab(n) {
-    //   switch (n) {
-    //     case 'date':
-    //       this.formData = { ...this.formData, ...eventTabFilterData(),... };
-    //       break;
-    //     case 'event':
-    //       this.formData = { ...this.formData, ...emptyFilterData() };
-    //       break;
-    //     case 'route':
-    //       this.formData = { ...this.formData, ...emptyFilterData() };
-    //       break;
-    //     default:
-    //       this.formData = { ...emptyFilterData() };
-    //   }
-    // },
+    weekTypes() {
+      return WEEK_TYPES;
+    },
+    correctFormData() {
+      const correctData = {
+        restriction_age: this.formData.restriction_age,
+        payment: this.formData.payment,
+        event_type: this.formData.event_type,
+      };
+
+      switch (this.activeTab) {
+        case 'date':
+          for (const key in dateTabFilterData()) {
+            if (this.formData[key]) {
+              correctData[key] = this.formData[key];
+            }
+          }
+          break;
+        case 'schedule':
+          for (const key in scheduleTabFilterData()) {
+            if (this.formData[key]) {
+              correctData[key] = this.formData[key];
+            }
+          }
+          break;
+        case 'route':
+          for (const key in routeTabFilterData()) {
+            if (this.formData[key]) {
+              correctData[key] = this.formData[key];
+            }
+          }
+          break;
+        default:
+          break;
+      }
+
+      return correctData;
+    },
   },
   methods: {
+    ...mapActions('Dashboard', [
+      'loadEvents',
+    ]),
     reset() {
       this.formData = { ...emptyFilterData() };
     },
     submit() {
-      console.log(this.formData);
+      this.loadEvents(this.correctFormData);
     },
     isDisabledEnd(date) {
       return this.formData.period_start && date < this.formData.period_start;
@@ -93,7 +118,7 @@ export default {
     </div>
     <div class="dashboard-filter__tabs">
       <el-tabs v-model="activeTab">
-        <el-tab-pane label="Дата и место" name="date">
+        <el-tab-pane label="Дата" name="date">
           <div class="dashboard-filter__block">
             <h2 class="dashboard-filter__block-title">Когда?</h2>
             <div class="dashboard-filter__block-item">
@@ -101,7 +126,7 @@ export default {
                 type="date"
                 v-model="formData.period_start"
                 placeholder="От"
-                value-format="timestamp"
+                value-format="yyyy-MM-dd"
                 :picker-options="{
                   disabledDate: isDisabledStart,
                 }"
@@ -112,7 +137,7 @@ export default {
                 type="date"
                 v-model="formData.period_end"
                 placeholder="До"
-                value-format="timestamp"
+                value-format="yyyy-MM-dd"
                 :picker-options="{
                   disabledDate: isDisabledEnd,
                 }"
@@ -127,6 +152,20 @@ export default {
               class="in-tabs"
             />
           </div>
+        </el-tab-pane>
+        <el-tab-pane label="Расписание" name="schedule">
+          <div class="dashboard-filter__block">
+            <h2 class="dashboard-filter__block-title">Когда я свободен(а)</h2>
+            <input-choose
+              :items="weekTypes"
+              v-model="formData.weekday"
+              :multiple="true"
+              :breakable="true"
+              class="in-tabs"
+            />
+          </div>
+        </el-tab-pane>
+        <el-tab-pane label="Маршрут" name="route">
           <div class="dashboard-filter__block dashboard-filter__block--padded">
             <h2 class="dashboard-filter__block-title">Где?</h2>
             <el-input
@@ -144,41 +183,28 @@ export default {
               >
                 <icon-search/>
               </icon-base>
+
             </el-input>
-            <input-choose
-              :items="['онлайн', 'оффлайн']"
-              v-model="formData.line_type"
-              class="full-items"
-            />
           </div>
         </el-tab-pane>
-        <el-tab-pane label="Мероприятие" name="event">
-          <div class="dashboard-filter__block">
-            <h2 class="dashboard-filter__block-title">Сфера</h2>
-            <input-choose
-              :items="['образование', 'мой район', 'московское долголетие']"
-              v-model="formData.sphere"
-              class="in-tabs"
-            />
-          </div>
-          <div class="dashboard-filter__block">
-            <h2 class="dashboard-filter__block-title">Участие</h2>
-            <input-choose
-              :items="['дети', 'для лиц с ограниченными возможностями', 'открытый воздух', 'зритель', 'участие в процессе']"
-              v-model="formData.placements"
-              :multiple="true"
-              :breakable="true"
-              class="in-tabs dashboard-filter__block-element"
-            />
-            <input-choose
-              :items="['бесплатно', 'платно']"
-              v-model="formData.payment"
-              class="in-tabs full-items"
-            />
-          </div>
-        </el-tab-pane>
-        <el-tab-pane label="Маршрут" name="route"></el-tab-pane>
       </el-tabs>
+
+      <div class="dashboard-filter__block">
+        <h2 class="dashboard-filter__block-title">Участие</h2>
+        <input-choose
+          :items="['бесплатно', 'платно']"
+          v-model="formData.payment"
+          class="in-tabs full-items"
+        />
+      </div>
+      <div class="dashboard-filter__block dashboard-filter__block--padded">
+        <h2 class="dashboard-filter__block-title">Как?</h2>
+        <input-choose
+          :items="['онлайн', 'оффлайн']"
+          v-model="formData.event_type"
+          class="full-items"
+        />
+      </div>
     </div>
     <div class="dashboard-filter__action">
       <el-button @click="submit" class="dashboard-filter__action-btn" type="secondary">Поиск</el-button>
@@ -189,7 +215,7 @@ export default {
 
 <style lang="scss" scoped>
 .dashboard-filter {
-  padding: 20px 20px 65px;
+  padding: 20px 20px 40px;
   position: absolute;
   top: 100%;
   left: 0;
@@ -199,6 +225,8 @@ export default {
   z-index: 100;
   max-height: calc(100vh - 60px);
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 
   &__category {
     margin-bottom: 50px;
@@ -241,6 +269,7 @@ export default {
 
   &__action {
     padding: 0 20px;
+    margin-top: auto;
   }
 
   &__action-btn {
