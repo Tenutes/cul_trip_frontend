@@ -2,7 +2,7 @@
 import InputChoose from '../../../common/InputChoose';
 import IconBase from '../../../common/svg/IconBase';
 import IconSearch from '../../../common/svg/IconSearch';
-import { AGES } from '../../constants';
+import { AGES, DAY_TYPES } from '../../constants';
 
 const dateTabFilterData = () => ({
   day_time: null,
@@ -41,7 +41,10 @@ export default {
   },
   computed: {
     ages() {
-      return AGES.map(({ label }) => label);
+      return AGES;
+    },
+    dayTypes() {
+      return DAY_TYPES;
     },
   },
   watch: {
@@ -66,7 +69,7 @@ export default {
       this.formData = { ...emptyFilterData() };
     },
     submit() {
-
+      console.log(this.formData);
     },
     isDisabledEnd(date) {
       return this.formData.period_start && date < this.formData.period_start;
@@ -83,6 +86,7 @@ export default {
     <div class="dashboard-filter__category">
       <input-choose
         class="gapped in-tabs"
+        :multiple="true"
         :items="ages"
         v-model="formData.restriction_age"
       />
@@ -97,6 +101,7 @@ export default {
                 type="date"
                 v-model="formData.period_start"
                 placeholder="От"
+                value-format="timestamp"
                 :picker-options="{
                   disabledDate: isDisabledStart,
                 }"
@@ -107,6 +112,7 @@ export default {
                 type="date"
                 v-model="formData.period_end"
                 placeholder="До"
+                value-format="timestamp"
                 :picker-options="{
                   disabledDate: isDisabledEnd,
                 }"
@@ -115,7 +121,7 @@ export default {
               </el-date-picker>
             </div>
             <input-choose
-              :items="['утро', 'день', 'вечер']"
+              :items="dayTypes"
               v-model="formData.day_time"
               :multiple="true"
               class="in-tabs"
@@ -183,7 +189,7 @@ export default {
 
 <style lang="scss" scoped>
 .dashboard-filter {
-  padding: 20px 20px 80px;
+  padding: 20px 20px 65px;
   position: absolute;
   top: 100%;
   left: 0;
