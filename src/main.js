@@ -13,7 +13,6 @@ import Vue2TouchEvents from 'vue2-touch-events';
 import './utils/viewport-height';
 
 Vue.use(Vue2TouchEvents, {
-  disableClick: true,
   swipeTolerance: 15,
 });
 Vue.use(httpPlugin, { store });
