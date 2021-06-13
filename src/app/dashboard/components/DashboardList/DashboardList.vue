@@ -1,4 +1,5 @@
 <script>
+import { mapActions, mapGetters } from 'vuex';
 import DashboardListItem from './DashboardListItem';
 import DashboardListMenu from './DashboardListMenu';
 import DashboardSearch from './DashboardSearch';
@@ -16,13 +17,26 @@ export default {
       yaMap: null,
     };
   },
-  computed: {},
-  watch: {},
-  mounted() {
+  computed: {
+    ...mapGetters('Dashboard', [
+      'recommendations',
+      'newEvents',
+      'compilations',
+    ]),
+  },
+  created() {
+    this.loadRecommendations();
+    this.loadNewEvents();
+    this.loadCompilations();
   },
   updated() {
   },
   methods: {
+    ...mapActions('Dashboard', [
+      'loadRecommendations',
+      'loadNewEvents',
+      'loadCompilations',
+    ]),
     clickMore(data) {
       console.log(data);
     },
@@ -36,9 +50,9 @@ export default {
       <dashboard-search/>
       <dashboard-list-menu/>
     </div>
-    <dashboard-list-item title="Рекомендации" :slides="[1,2,3]" @click-title-more="clickMore"/>
-    <dashboard-list-item title="Попробуйте новое" :slides="[1,2,3]" @click-title-more="clickMore"/>
-    <dashboard-list-item title="Подборки" :slides="[1,2,3]" @click-title-more="clickMore"/>
+    <dashboard-list-item title="Рекомендации" :slides="recommendations" @click-title-more="clickMore"/>
+    <dashboard-list-item title="Попробуйте новое" :slides="newEvents" @click-title-more="clickMore"/>
+    <dashboard-list-item title="Подборки" :slides="compilations" @click-title-more="clickMore"/>
   </div>
 </template>
 

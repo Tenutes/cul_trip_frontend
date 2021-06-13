@@ -1,4 +1,6 @@
 <script>
+import {getDay, format} from 'date-fns';
+import { imgUrl } from '@/config';
 import 'swiper/swiper.scss';
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import IconArrow from '../../../common/svg/IconArrow';
@@ -38,7 +40,11 @@ export default {
   },
   updated() {
   },
-  methods: {},
+  methods: {
+    getSrc(src) {
+      return `${ imgUrl }${ src }`;
+    },
+  },
 };
 </script>
 
@@ -66,8 +72,7 @@ export default {
           class="dashboard-list-item__slide"
         >
           <div class="dashboard-list-item__slide-image">
-            <!--           <img :src="slide.image" :alt="slide.title">-->
-            <img src="~@/assets/img/godblessus.png" :alt="slide.title">
+            <img :src="getSrc(slide.image.src)" :alt="slide.title">
             <div class="dashboard-list-item__slide-tags">
               <p class="dashboard-list-item__slide-tag dashboard-list-item__slide-tag--спорт">спорт</p>
               <p class="dashboard-list-item__slide-tag dashboard-list-item__slide-tag--дети">дети</p>
@@ -76,11 +81,9 @@ export default {
             </div>
           </div>
           <div class="dashboard-list-item__slide-info">
-            <p class="dashboard-list-item__slide-title">«ЗОЖик» в библиотеке № 194</p>
-            <p class="dashboard-list-item__slide-description">Интенсивы по физкультуре в рамках пятой ежегодной
-              программы городского досуга «Культлето»</p>
+            <p class="dashboard-list-item__slide-title">{{ slide.title }}</p>
+            <p class="dashboard-list-item__slide-description" v-html="slide.text"></p>
             <div class="dashboard-list-item__slide-action">
-              <p><a href="#" class="dashboard-list-item__slide-link">Библиотека № 194</a></p>
               <p>22 июня — 24 июня</p>
             </div>
           </div>

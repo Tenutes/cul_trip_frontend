@@ -39,7 +39,11 @@ export default {
           this.currentValue.push(item);
         }
       } else {
-        this.currentValue = item;
+        if (this.currentValue === item) {
+          this.currentValue = {};
+        } else {
+          this.currentValue = item;
+        }
       }
       this.$emit('input', this.currentValue);
     },

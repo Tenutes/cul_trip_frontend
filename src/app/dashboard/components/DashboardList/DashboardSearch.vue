@@ -26,9 +26,7 @@ export default {
       this.$emit('search', n);
     },
     filterExtended(n) {
-      if (n) {
-        document.documentElement.style.overflow = n ? 'hidden' : '';
-      }
+      document.documentElement.style.overflow = n ? 'hidden' : '';
     },
   },
 };

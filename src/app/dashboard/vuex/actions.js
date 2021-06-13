@@ -4,8 +4,7 @@ import * as TYPES from './mutations-types';
 export const loadRecommendations = ({ dispatch }) => {
   dispatch('setFetching', { filed: 'recommendations', value: true });
   return http
-    .get('/events/recommendations')
-    .then(({ data }) => data)
+    .get('/events')
     .then(({ data }) => {
       dispatch('setRecommendations', data);
       dispatch('setFetching', { filed: 'recommendations', value: false });
@@ -15,8 +14,7 @@ export const loadRecommendations = ({ dispatch }) => {
 export const loadNewEvents = ({ dispatch }) => {
   dispatch('setFetching', { filed: 'newEvents', value: true });
   return http
-    .get('/events/new')
-    .then(({ data }) => data)
+    .get('/events')
     .then(({ data }) => {
       dispatch('setNewEvents', data);
       dispatch('setFetching', { filed: 'newEvents', value: false });
@@ -26,8 +24,7 @@ export const loadNewEvents = ({ dispatch }) => {
 export const loadCompilations = ({ dispatch }) => {
   dispatch('setFetching', { filed: 'compilations', value: true });
   return http
-    .get('/events/compilations')
-    .then(({ data }) => data)
+    .get('/events')
     .then(({ data }) => {
       dispatch('setCompilations', data);
       dispatch('setFetching', { filed: 'compilations', value: false });

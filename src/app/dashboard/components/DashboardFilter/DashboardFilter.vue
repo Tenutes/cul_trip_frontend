@@ -4,11 +4,11 @@ import IconBase from '../../../common/svg/IconBase';
 import IconSearch from '../../../common/svg/IconSearch';
 
 const dateTabFilterData = () => ({
-  dayTime: null,
-  lineType: null,
+  day_time: null,
+  line_type: null,
   address: null,
-  whenStart: null,
-  whenEnd: null,
+  period_start: null,
+  period_end: null,
 });
 
 const eventTabFilterData = () => ({
@@ -20,7 +20,7 @@ const eventTabFilterData = () => ({
 const routeTabFilterData = () => ({});
 
 const emptyFilterData = () => ({
-  type: null,
+  restriction_age: null,
   ...dateTabFilterData(),
   ...eventTabFilterData(),
   ...routeTabFilterData(),
@@ -63,10 +63,10 @@ export default {
 
     },
     isDisabledEnd(date) {
-      return this.formData.whenStart && date < this.formData.whenStart;
+      return this.formData.period_start && date < this.formData.period_start;
     },
     isDisabledStart(date) {
-      return this.formData.whenEnd && date > this.formData.whenEnd;
+      return this.formData.period_end && date > this.formData.period_end;
     },
   },
 };
@@ -77,7 +77,7 @@ export default {
     <div class="dashboard-filter__category">
       <input-choose
         :items="['музей', 'спорт', 'дети', 'прогулки']"
-        v-model="formData.type"
+        v-model="formData.restriction_age"
       />
     </div>
     <div class="dashboard-filter__tabs">
@@ -88,7 +88,7 @@ export default {
             <div class="dashboard-filter__block-item">
               <el-date-picker
                 type="date"
-                v-model="formData.whenStart"
+                v-model="formData.period_start"
                 placeholder="От"
                 :picker-options="{
                   disabledDate: isDisabledStart,
@@ -98,7 +98,7 @@ export default {
               </el-date-picker>
               <el-date-picker
                 type="date"
-                v-model="formData.whenEnd"
+                v-model="formData.period_end"
                 placeholder="До"
                 :picker-options="{
                   disabledDate: isDisabledEnd,
@@ -108,8 +108,8 @@ export default {
               </el-date-picker>
             </div>
             <input-choose
-              :items="['сегодня', 'завтра', 'утро', 'день', 'вечер']"
-              v-model="formData.dayTime"
+              :items="['утро', 'день', 'вечер']"
+              v-model="formData.day_time"
               :multiple="true"
               class="in-tabs"
             />
@@ -134,7 +134,7 @@ export default {
             </el-input>
             <input-choose
               :items="['онлайн', 'оффлайн']"
-              v-model="formData.lineType"
+              v-model="formData.line_type"
               class="full-items"
             />
           </div>
