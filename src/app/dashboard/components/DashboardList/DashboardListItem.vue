@@ -85,14 +85,25 @@ export default {
           :key="index"
           class="dashboard-list-item__slide"
         >
-          <router-link class="dashboard-list-item__slide-link" tag="a" :to="{name: 'event', params: { id: event.id }}"/>
+          <router-link
+            class="dashboard-list-item__slide-link"
+            tag="a"
+            :to=" {name: 'event', params: { id: event.id } }"
+          />
           <div class="dashboard-list-item__slide-image">
             <img :src="getSrc(event.image.src)" :alt="event.title">
-            <div class="dashboard-list-item__slide-tags">
-              <p class="tag tag--спорт">спорт</p>
-              <p class="tag tag--дети">дети</p>
-              <p class="tag tag--прогулки">прогулки</p>
-              <p class="tag tag--музей">музей</p>
+            <div
+              class="dashboard-list-item__slide-tags"
+              v-if="event.tags && event.tags.length"
+            >
+              <p
+                v-for="(tag, index) in event.tags"
+                :key="index"
+                :class="`tag--${tag}`"
+                class="tag"
+              >
+                {{ tag }}
+              </p>
             </div>
           </div>
           <div class="dashboard-list-item__slide-info">

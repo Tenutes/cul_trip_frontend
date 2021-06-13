@@ -19,7 +19,9 @@
     margin-right: 0;
   }
 
-  &--спорт {
+  &--малыши,
+  &--оффлайн,
+  &--бесплатно {
     background: var(--col-orange);
 
     &.tag--shadowed {
@@ -27,7 +29,9 @@
     }
   }
 
-  &--дети {
+  &--дети,
+  &--онлайн,
+  &--платно {
     background: var(--col-purple);
 
     &.tag--shadowed {
@@ -35,7 +39,8 @@
     }
   }
 
-  &--музей {
+  &--подростки,
+  &--спорт {
     background: var(--col-blue-light);
 
     &.tag--shadowed {
@@ -43,7 +48,7 @@
     }
   }
 
-  &--прогулки {
+  &--взрослые {
     background: var(--col-green);
 
     &.tag--shadowed {

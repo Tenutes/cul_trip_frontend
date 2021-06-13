@@ -118,8 +118,15 @@ export default {
           <icon-arrow/>
         </icon-base>
       </button>
-      <div class="event__header-tags">
-        <div class="tag tag--прогулки tag--shadowed mb-0 mr-0">прогулки</div>
+      <div class="event__header-tags" v-if="event && event.tags">
+        <p
+          v-for="(tag, index) in event.tags"
+          :key="index"
+          :class="`tag--${tag}`"
+          class="tag tag--shadowed"
+        >
+          {{ tag }}
+        </p>
       </div>
       <div class="event__header-action">
         <button
@@ -327,7 +334,7 @@ export default {
   }
 
   &__header-back {
-    margin-right: 15px;
+    margin-right: 10px;
     padding: 0;
     margin-left: -10px;
     width: 40px;
@@ -339,7 +346,7 @@ export default {
   }
 
   &__header-action {
-    margin-left: 15px;
+    margin-left: 10px;
     margin-right: -10px;
   }
 
@@ -652,6 +659,17 @@ export default {
     padding-left: 10px;
     padding-right: 10px;
     border-radius: 10px;
+  }
+
+  &__header-tags {
+    display: flex;
+    margin: -8px;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    .tag {
+      margin: 8px;
+    }
   }
 }
 

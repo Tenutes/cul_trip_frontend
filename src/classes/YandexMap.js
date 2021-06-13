@@ -35,20 +35,29 @@ export default class YandexMap {
     });
   }
 
-  drawPoint(point) {
+  getPoint(point) {
     const image = this.mapPointIcon;
-
-    const placeMark = new ymaps.Placemark([point.latitude, point.longitude], {
-    }, {
+    return new ymaps.Placemark([point.latitude, point.longitude], {}, {
       iconLayout: 'default#image',
       iconImageHref: image,
       iconImageSize: [30, 30],
-      iconImageOffset: [-5, -20]
+      iconImageOffset: [-5, -20],
     });
+  }
 
+  drawPoint(point) {
+    const placeMark = this.getPoint(point);
     this.mapObject.setCenter([point.latitude, point.longitude]);
     this.mapObject.geoObjects.removeAll();
     this.mapObject.geoObjects.add(placeMark);
+  }
+
+  drawPoints(points) {
+    for (const point of points) {
+      const placeMark = this.getPoint(point);
+      this.mapObject.geoObjects.add(placeMark);
+    }
+    this.mapObject.setBounds(this.mapObject.geoObjects.getBounds());
   }
 
   destroy() {

@@ -19,14 +19,14 @@ export default {
       expanded: false,
     };
   },
-  mounted() {
+  async mounted() {
     if (!this.mapObject) {
-      this.mapLoading = true;
+      this.mapInitializing = true;
       this.mapObject = new YandexMap(this.$refs.map.id);
-      this.mapObject.init()
-        .then(() => {
-          this.mapLoading = false;
-        });
+      this.mapObject.setMapIcon(this.$refs.balloon.src);
+      await this.mapObject.init();
+      this.mapObject.drawPoints(this.events);
+      this.mapInitializing = false;
     }
   },
   methods: {
@@ -64,7 +64,8 @@ export default {
 
 <template>
   <div class="dashboard-map">
-    <div class="dashboard-map__container" id="map" ref="map" v-loader="mapLoading"></div>
+    <img style="display: none" src="~@/assets/img/balloon-red.png" ref="balloon">
+    <div class="dashboard-map__container" id="map" ref="map"></div>
     <div
       class="dashboard-map__body"
     >
