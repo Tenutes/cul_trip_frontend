@@ -15,5 +15,6 @@ export default {
 <style lang="scss">
 .dashboard {
   width: 100%;
+  overflow: hidden;
 }
 </style>
