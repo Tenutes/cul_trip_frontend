@@ -76,7 +76,6 @@ export default {
 
   &__wrapper {
     display: flex;
-    justify-content: center;
     overflow: auto;
     padding-bottom: 10px;
 
