@@ -188,7 +188,7 @@ export default {
   top: 100%;
   left: 0;
   width: 100%;
-  height: calc(100vh - 60px);
+  height: calc(var(--vh, 100vh) - 60px);
   background-color: #FFF;
   z-index: 100;
   max-height: calc(100vh - 60px);

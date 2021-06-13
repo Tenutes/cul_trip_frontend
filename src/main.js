@@ -9,7 +9,10 @@ import httpPlugin from './plugins/http';
 import 'normalize.css';
 import ElementUI from 'element-ui';
 import locale from 'element-ui/lib/locale/lang/ru-RU';
+import Vue2TouchEvents from 'vue2-touch-events';
+import './utils/viewport-height';
 
+Vue.use(Vue2TouchEvents);
 Vue.use(httpPlugin, { store });
 Vue.use(ElementUI, { locale });
 sync(store, router);

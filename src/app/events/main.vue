@@ -1,40 +1,39 @@
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
+import EventsItem from './components/EventsItem';
+import EventsList from './components/EventsList';
 
 export default {
-  components: {},
+  components: { EventsItem, EventsList },
   name: 'Dashboard',
+  data() {
+    return {
+      page: '',
+    };
+  },
   created() {
-    const { id } = this.$route.params;
-
-    if (id) {
-      this.loadEvent(id)
-    } else {
-      this.loadEvents();
+    if (this.$route.params.id) {
+      this.page = 'event';
     }
   },
   computed: {
     ...mapGetters('Events', [
       'fetching',
-      'events',
-      'event',
-    ]),
-  },
-  methods: {
-    ...mapActions('Events', [
-      'loadEvents',
-      'loadEvent',
     ]),
   },
 };
 </script>
 
 <template>
-  <div class="events">
+  <div class="events" v-loading="fetching.event">
+    <events-item v-if="page === 'event'"/>
   </div>
 </template>
 
 <style lang="scss">
 .events {
+  width: 100%;
+  height: 100vh;
+  height: var(--vh, 100vh);
 }
 </style>

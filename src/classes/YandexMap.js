@@ -22,14 +22,14 @@ export default class YandexMap {
           this.initInterval = null;
           res();
         }
-      }, 1000);
+      }, 100);
     });
   }
 
   draw() {
     this.mapObject = new ymaps.Map(this.mapId, {
       center: [55.76, 37.64],
-      zoom: 5,
+      zoom: 11,
       controls: [],
     }, {
       restrictMapArea: [

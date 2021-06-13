@@ -18,7 +18,7 @@ export default {
       type: String,
       default: 'currentColor',
     },
-    iconStroke: {
+    strokeColor: {
       type: [String, Boolean],
       default: false,
     },
@@ -34,7 +34,7 @@ export default {
     role="presentation"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <g :fill="iconColor" :stroke="iconStroke">
+    <g :fill="iconColor" :stroke="strokeColor">
       <slot/>
     </g>
   </svg>

@@ -1,14 +1,7 @@
 export default [
   {
-    name: 'events',
-    path: '/events',
+    name: 'event',
+    path: '/events/:id',
     component: () => import(/* webpackChunkName: "events" */ './main'),
-    children: [
-      {
-        name: 'event',
-        path: ':id',
-        component: () => import(/* webpackChunkName: "events" */ './main'),
-      },
-    ]
   },
 ];

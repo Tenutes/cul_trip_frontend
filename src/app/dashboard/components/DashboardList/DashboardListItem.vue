@@ -1,6 +1,5 @@
 <script>
-import {getDay, format} from 'date-fns';
-import { imgUrl } from '@/config';
+import { getCroppedText, getEventDate, getSrc } from '@/utils/event';
 import 'swiper/swiper.scss';
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import IconArrow from '../../../common/svg/IconArrow';
@@ -42,7 +41,13 @@ export default {
   },
   methods: {
     getSrc(src) {
-      return `${ imgUrl }${ src }`;
+      return getSrc(src);
+    },
+    getDate(event) {
+      return getEventDate(event);
+    },
+    getCroppedText(text) {
+      return getCroppedText(text);
     },
   },
 };
@@ -71,20 +76,23 @@ export default {
           :key="index"
           class="dashboard-list-item__slide"
         >
+          <router-link class="dashboard-list-item__slide-link" tag="a" :to="{name: 'event', params: { id: slide.id }}"/>
           <div class="dashboard-list-item__slide-image">
             <img :src="getSrc(slide.image.src)" :alt="slide.title">
             <div class="dashboard-list-item__slide-tags">
-              <p class="dashboard-list-item__slide-tag dashboard-list-item__slide-tag--спорт">спорт</p>
-              <p class="dashboard-list-item__slide-tag dashboard-list-item__slide-tag--дети">дети</p>
-              <p class="dashboard-list-item__slide-tag dashboard-list-item__slide-tag--прогулки">прогулки</p>
-              <p class="dashboard-list-item__slide-tag dashboard-list-item__slide-tag--музей">музей</p>
+              <p class="tag tag--спорт">спорт</p>
+              <p class="tag tag--дети">дети</p>
+              <p class="tag tag--прогулки">прогулки</p>
+              <p class="tag tag--музей">музей</p>
             </div>
           </div>
           <div class="dashboard-list-item__slide-info">
             <p class="dashboard-list-item__slide-title">{{ slide.title }}</p>
-            <p class="dashboard-list-item__slide-description" v-html="slide.text"></p>
+            <p class="dashboard-list-item__slide-description">
+              {{ getCroppedText(slide.text) }}
+            </p>
             <div class="dashboard-list-item__slide-action">
-              <p>22 июня — 24 июня</p>
+              <p>{{ getDate(slide) }}</p>
             </div>
           </div>
         </swiper-slide>
@@ -156,10 +164,20 @@ export default {
   &__slide {
     width: calc(100% - 16px);
     margin-right: 16px;
+    position: relative;
 
     &:last-child {
       margin-right: 0;
     }
+  }
+
+  &__slide-link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
   }
 
   &__slide-image {
@@ -189,35 +207,6 @@ export default {
     padding: 8px;
     display: flex;
     flex-wrap: wrap;
-  }
-
-  &__slide-tag {
-    margin-right: 8px;
-    margin-bottom: 8px;
-    min-width: 70px;
-    font-size: 14px;
-    line-height: 20px;
-    color: white;
-    font-weight: 500;
-    text-align: center;
-    border-radius: 20px;
-    padding: 0 5px;
-
-    &--спорт {
-      background: var(--col-orange);
-    }
-
-    &--дети {
-      background: var(--col-purple);
-    }
-
-    &--музей {
-      background: var(--col-blue-light);
-    }
-
-    &--прогулки {
-      background: var(--col-green);
-    }
   }
 
   &__slide-title {

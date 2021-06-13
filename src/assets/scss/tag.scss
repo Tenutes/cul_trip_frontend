@@ -1,0 +1,53 @@
+.tag {
+  display: inline-block;
+  margin-right: 8px;
+  margin-bottom: 8px;
+  min-width: 70px;
+  font-size: 14px;
+  line-height: 20px;
+  color: white;
+  font-weight: 500;
+  text-align: center;
+  border-radius: 20px;
+  padding: 0 10px;
+
+  &.mb-0 {
+    margin-bottom: 0;
+  }
+
+  &.mr-0 {
+    margin-right: 0;
+  }
+
+  &--спорт {
+    background: var(--col-orange);
+
+    &.tag--shadowed {
+      box-shadow: 0 2px 4px rgba(#FF5959, 0.25);
+    }
+  }
+
+  &--дети {
+    background: var(--col-purple);
+
+    &.tag--shadowed {
+      box-shadow: 0 2px 4px rgba(#6167FF, 0.25);
+    }
+  }
+
+  &--музей {
+    background: var(--col-blue-light);
+
+    &.tag--shadowed {
+      box-shadow: 0 2px 4px rgba(#4BB4FF, 0.25);
+    }
+  }
+
+  &--прогулки {
+    background: var(--col-green);
+
+    &.tag--shadowed {
+      box-shadow: 0 2px 4px rgba(#38AF00, 0.25);
+    }
+  }
+}

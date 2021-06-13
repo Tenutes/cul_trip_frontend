@@ -1,6 +1,6 @@
 export default {
   events: [],
-  event: [],
+  event: null,
   fetching: {
     events: false,
     event: false,

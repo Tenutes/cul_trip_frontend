@@ -5,7 +5,6 @@ export const loadEvents = ({ dispatch }) => {
   dispatch('setFetching', { filed: 'events', value: true });
   return http
     .get('events')
-    .then(({ data }) => data)
     .then(({ data }) => {
       dispatch('setEvents', data);
       dispatch('setFetching', { filed: 'events', value: false });
@@ -16,7 +15,6 @@ export const loadEvent = ({ dispatch }, id) => {
   dispatch('setFetching', { filed: 'event', value: true });
   return http
     .get(`/event/${id}`)
-    .then(({ data }) => data)
     .then(({ data }) => {
       dispatch('setEvent', data);
       dispatch('setFetching', { filed: 'event', value: false });

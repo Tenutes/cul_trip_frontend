@@ -36,6 +36,7 @@ html, body {
 
 body {
   overflow-x: hidden;
+  height: 100%;
 }
 
 * {
@@ -103,6 +104,12 @@ p {
   border-radius: 10px;
   padding-left: 10px;
   padding-right: 10px;
+
+  > span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
   &--primary {
     background-color: var(--col-dark);
@@ -177,6 +184,29 @@ p {
       background-color: transparent;
       border-color: transparent;
     }
+  }
+
+  &--info {
+    color: var(--col-dark);
+    background-color: var(--col-grey-light);
+    border-color: var(--col-grey-light);
+
+    &:hover,
+    &:focus {
+      color: var(--col-dark);
+      background-color: var(--col-grey-light);
+      border-color: var(--col-grey-light);
+    }
+
+    &:active {
+      color: var(--col-dark);
+      background-color: var(--col-grey-light);
+      border-color: var(--col-grey-light);
+    }
+  }
+
+  &--text {
+    padding: 0;
   }
 }
 
