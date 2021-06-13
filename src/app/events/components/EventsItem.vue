@@ -50,7 +50,10 @@ export default {
       'loadEvent',
     ]),
     async onIdUpdate(id) {
-      this.$refs.content.scrollTop = 0;
+      if (this.$refs.content) {
+        this.$refs.content.scrollTop = 0;
+      }
+
       this.id = id;
       await this.loadEvent(id);
       if (!this.event) {
