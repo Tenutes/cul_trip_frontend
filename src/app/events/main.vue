@@ -1,10 +1,9 @@
 <script>
 import { mapGetters } from 'vuex';
 import EventsItem from './components/EventsItem';
-import EventsList from './components/EventsList';
 
 export default {
-  components: { EventsItem, EventsList },
+  components: { EventsItem },
   name: 'Dashboard',
   data() {
     return {

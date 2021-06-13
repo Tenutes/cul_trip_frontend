@@ -3,6 +3,7 @@ import DashboardListItem from '@/app/dashboard/components/DashboardList/Dashboar
 import YandexMap from '@/classes/YandexMap';
 import { getCroppedText, getEventDate, getSrc } from '@/utils/event';
 import { mapActions, mapGetters } from 'vuex';
+import { format, parseISO } from 'date-fns';
 import IconArrow from '../../common/svg/IconArrow';
 import IconBase from '../../common/svg/IconBase';
 import IconGoogleCalendar from '../../common/svg/IconGoogleCalendar';
@@ -84,6 +85,12 @@ export default {
     handleSwipeBottom() {
       this.expanded = false;
       this.$refs.content.scrollTop = 0;
+    },
+    format(...args) {
+      return format(...args);
+    },
+    parseISO(date) {
+      return parseISO(date);
     },
   },
 };
@@ -182,6 +189,8 @@ export default {
               </el-button>
               <el-button
                 type="info"
+                title="Добавить в календарь"
+                class="addeventatc event__add-to-calendar"
               >
                 <icon-base
                   width="20"
@@ -190,10 +199,15 @@ export default {
                 >
                   <icon-google-calendar/>
                 </icon-base>
+                <span class="start">{{ format(parseISO(event.date_from), 'yyyy-MM-dd HH:mm') }}</span>
+                <span class="end">{{ format(parseISO(event.date_to), 'yyyy-MM-dd HH:mm') }}</span>
+                <span class="timezone">Europe/Moscow</span>
+                <span class="title">{{ event.title }}</span>
+                <!--                <span class="location">Location of the event</span>-->
               </el-button>
             </div>
             <div class="event__body-block event__body-block--no-gutters" v-if="event.recommendations.length">
-              <dashboard-list-item title="Похожие мероприятия" :slides="event.recommendations"/>
+              <dashboard-list-item title="Похожие мероприятия" :events="event.recommendations"/>
             </div>
             <div class="event__body-block">
               <div class="event__timeline">
@@ -491,6 +505,12 @@ export default {
   &__social {
     margin-bottom: 40px;
     padding: 0 16px;
+
+    button {
+      width: 40px;
+      height: 40px;
+      padding: 10px;
+    }
   }
 
   &__timeline {
@@ -594,12 +614,26 @@ export default {
       }
     }
   }
+
+  &__add-to-calendar {
+    background-image: none;
+    background-color: var(--col-grey-light);
+    box-shadow: none!important;
+    text-shadow: none;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 10px;
+  }
 }
 </style>
 <style lang="scss">
 .event {
   .el-loading-mask {
     border-radius: 10px 10px 0 0;
+  }
+
+  .addeventatc_icon {
+    display: none;
   }
 }
 </style>

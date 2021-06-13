@@ -25,6 +25,9 @@ export default {
       'newEvents',
       'compilations',
     ]),
+    mapData() {
+      return this.filterLoads ? this.filterResults : this.recommendations;
+    },
   },
   created() {
     this.loadRecommendations();
@@ -40,6 +43,10 @@ export default {
     handleFilterLoad(data) {
       this.filterResults = data;
       this.filterLoads = true;
+    },
+    returnToMain() {
+      this.filterResults = [];
+      this.filterLoads = false;
     },
   },
 };
@@ -57,6 +64,9 @@ export default {
       <dashboard-list-item title="Подборки" :events="compilations"/>
     </template>
     <template v-else>
+      <div class="dashboard-list__back">
+        <el-button type="info" @click="returnToMain">Вернуться</el-button>
+      </div>
       <dashboard-list-item :swiper="false" title="Результаты поиска" :events="filterResults"/>
     </template>
   </div>
@@ -70,6 +80,15 @@ export default {
 
   &__head {
     margin-bottom: 40px;
+  }
+
+  &__back {
+    margin-bottom: 20px;
+    padding: 0 20px;
+
+    .el-button {
+      width: 100%;
+    }
   }
 }
 </style>

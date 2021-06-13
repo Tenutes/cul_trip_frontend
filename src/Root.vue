@@ -4,6 +4,7 @@ import { createScript } from './utils/element';
 export default {
   created() {
     createScript('https://api-maps.yandex.ru/2.1/?lang=ru_RU', { id: 'yamap' });
+    createScript('https://addevent.com/libs/atc/1.6.1/atc.min.js', { id: 'addToCalendar', async: true, defer: true });
   },
 };
 </script>
@@ -105,7 +106,7 @@ p {
   padding-left: 10px;
   padding-right: 10px;
 
-  > span {
+  > span:first-child {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -342,7 +343,6 @@ p {
   }
 }
 
-
 .el-date-editor {
   padding-top: 0;
   padding-bottom: 0;
@@ -366,7 +366,6 @@ p {
       }
     }
   }
-
 
   .el-input {
     &__inner {
