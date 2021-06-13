@@ -159,89 +159,91 @@ export default {
               <p></p>
             </div>
           </div>
-          <div class="event__body-block" v-if="expanded">
-            <div class="event__info">
-              <p><b>{{ getDate(event) }}</b></p>
-            </div>
-          </div>
-          <div class="event__social">
-            <el-button
-              type="info"
-            >
-              <icon-base
-                width="20"
-                height="20"
-                view-box="0 0 20 20"
-              >
-                <icon-share/>
-              </icon-base>
-            </el-button>
-            <el-button
-              type="info"
-            >
-              <icon-base
-                width="20"
-                height="20"
-                view-box="0 0 20 20"
-              >
-                <icon-google-calendar/>
-              </icon-base>
-            </el-button>
-          </div>
-          <div class="event__body-block event__body-block--no-gutters" v-if="expanded && event.recommendations.length">
-            <dashboard-list-item title="Похожие мероприятия" :slides="event.recommendations"/>
-          </div>
-          <div class="event__body-block">
-            <div class="event__timeline">
-              <div class="event__timeline-block">
-                <div class="event__timeline-item event__timeline-item--stop">
-                  <p>Прогулка по Большой Дмитровке в Музей Москвы</p>
-                  <p class="date">16:00 - 18:00</p>
-                </div>
-                <div class="event__timeline-item">
-                  <p>15 минут на автобусе</p>
-                </div>
-              </div>
-              <div class="event__timeline-block">
-                <div class="event__timeline-item event__timeline-item--stop">
-                  <p>«Сказки в стиле великих художников» в Воронцовском парке</p>
-                  <p class="date">18:30 - 20:30</p>
-                </div>
-                <div class="event__timeline-item">
-                  <p>5 минут пешком</p>
-                </div>
-              </div>
-              <div class="event__timeline-block">
-                <div class="event__timeline-item event__timeline-item--stop">
-                  <p>Прогулка по Арбату</p>
-                  <p class="date">20:10 - 21:00</p>
-                </div>
+          <template v-if="expanded">
+            <div class="event__body-block">
+              <div class="event__info">
+                <p><b>{{ getDate(event) }}</b></p>
               </div>
             </div>
-          </div>
-          <div class="event__footer">
-            <el-button
-              class="event__footer-more"
-              type="info"
-            >
-              Подробнее
-            </el-button>
-            <el-button
-              class="event__footer-action"
-              @click="isLiked = !isLiked"
-            >
-              <icon-base
-                class="event__header-action-icon event__header-action-icon--like"
-                :class="{isLiked}"
-                width="20"
-                height="20"
-                view-box="0 0 20 20"
-                :stroke-color="isLiked ? '#FF5959' : '#282A31'"
+            <div class="event__social">
+              <el-button
+                type="info"
               >
-                <icon-like/>
-              </icon-base>
-            </el-button>
-          </div>
+                <icon-base
+                  width="20"
+                  height="20"
+                  view-box="0 0 20 20"
+                >
+                  <icon-share/>
+                </icon-base>
+              </el-button>
+              <el-button
+                type="info"
+              >
+                <icon-base
+                  width="20"
+                  height="20"
+                  view-box="0 0 20 20"
+                >
+                  <icon-google-calendar/>
+                </icon-base>
+              </el-button>
+            </div>
+            <div class="event__body-block event__body-block--no-gutters" v-if="event.recommendations.length">
+              <dashboard-list-item title="Похожие мероприятия" :slides="event.recommendations"/>
+            </div>
+            <div class="event__body-block">
+              <div class="event__timeline">
+                <div class="event__timeline-block">
+                  <div class="event__timeline-item event__timeline-item--stop">
+                    <p>Прогулка по Большой Дмитровке в Музей Москвы</p>
+                    <p class="date">16:00 - 18:00</p>
+                  </div>
+                  <div class="event__timeline-item">
+                    <p>15 минут на автобусе</p>
+                  </div>
+                </div>
+                <div class="event__timeline-block">
+                  <div class="event__timeline-item event__timeline-item--stop">
+                    <p>«Сказки в стиле великих художников» в Воронцовском парке</p>
+                    <p class="date">18:30 - 20:30</p>
+                  </div>
+                  <div class="event__timeline-item">
+                    <p>5 минут пешком</p>
+                  </div>
+                </div>
+                <div class="event__timeline-block">
+                  <div class="event__timeline-item event__timeline-item--stop">
+                    <p>Прогулка по Арбату</p>
+                    <p class="date">20:10 - 21:00</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="event__footer">
+              <el-button
+                class="event__footer-more"
+                type="info"
+              >
+                Подробнее
+              </el-button>
+              <el-button
+                class="event__footer-action"
+                @click="isLiked = !isLiked"
+              >
+                <icon-base
+                  class="event__header-action-icon event__header-action-icon--like"
+                  :class="{isLiked}"
+                  width="20"
+                  height="20"
+                  view-box="0 0 20 20"
+                  :stroke-color="isLiked ? '#FF5959' : '#282A31'"
+                >
+                  <icon-like/>
+                </icon-base>
+              </el-button>
+            </div>
+          </template>
         </div>
       </div>
     </div>
@@ -364,6 +366,7 @@ export default {
       .event {
         &__body-inner-content {
           padding-top: 0;
+          pointer-events: all;
         }
       }
     }
@@ -379,6 +382,7 @@ export default {
     border-radius: 10px 10px 0 0;
     box-shadow: 0px -1px 4px rgba(0, 0, 0, 0.05);
     max-height: 100%;
+    pointer-events: none;
   }
 
   &__title {
