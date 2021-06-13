@@ -88,9 +88,15 @@ export default {
             class="dashboard-map__body-item"
           >
             <div class="dashboard-map__body-item-head">
-              <div class="dashboard-map__body-item-head-tags">
-                <div class="tag tag--спорт">спорт</div>
-                <div class="tag tag--дети">дети</div>
+              <div class="dashboard-map__body-item-head-tags" v-if="event.tags && event.tags.length">
+                <p
+                  v-for="(tag, index) in event.tags"
+                  :key="index"
+                  :class="`tag--${tag}`"
+                  class="tag"
+                >
+                  {{ tag }}
+                </p>
               </div>
               <div class="dashboard-map__body-item-head-actions"></div>
             </div>
