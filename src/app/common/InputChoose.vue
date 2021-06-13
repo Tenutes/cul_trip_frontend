@@ -105,11 +105,18 @@ export default {
     border: 0;
     transition: .25s;
     max-width: 240px;
+    user-select: none;
 
     &.active {
       background: var(--col-orange);
       color: white;
     }
+  }
+
+  &.gapped {
+    margin-left: -20px;
+    margin-right: -20px;
+    width: calc(100% + 40px);
   }
 
   &.in-tabs {

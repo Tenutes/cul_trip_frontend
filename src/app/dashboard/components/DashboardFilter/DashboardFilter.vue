@@ -2,6 +2,7 @@
 import InputChoose from '../../../common/InputChoose';
 import IconBase from '../../../common/svg/IconBase';
 import IconSearch from '../../../common/svg/IconSearch';
+import { AGES } from '../../constants';
 
 const dateTabFilterData = () => ({
   day_time: null,
@@ -37,6 +38,11 @@ export default {
       },
       activeTab: 'date',
     };
+  },
+  computed: {
+    ages() {
+      return AGES.map(({ label }) => label);
+    },
   },
   watch: {
     // activeTab(n) {
@@ -76,7 +82,8 @@ export default {
   <div class="dashboard-filter">
     <div class="dashboard-filter__category">
       <input-choose
-        :items="['музей', 'спорт', 'дети', 'прогулки']"
+        class="gapped in-tabs"
+        :items="ages"
         v-model="formData.restriction_age"
       />
     </div>
@@ -184,6 +191,8 @@ export default {
   height: calc(100vh - 60px);
   background-color: #FFF;
   z-index: 100;
+  max-height: calc(100vh - 60px);
+  overflow-y: auto;
 
   &__category {
     margin-bottom: 50px;
