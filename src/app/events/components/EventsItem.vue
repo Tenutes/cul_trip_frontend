@@ -368,6 +368,10 @@ export default {
           padding-top: 0;
           pointer-events: all;
         }
+
+        &__body-swiper {
+          height: 100px;
+        }
       }
     }
   }
@@ -440,7 +444,7 @@ export default {
     top: 0;
     left: 0;
     width: 100%;
-    height: 100px;
+    height: 175px;
     z-index: 10;
 
     &::before {
