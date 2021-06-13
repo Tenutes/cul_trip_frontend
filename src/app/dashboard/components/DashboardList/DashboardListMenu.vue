@@ -6,17 +6,32 @@ import IconMap from '../../../common/svg/IconMap';
 export default {
   name: 'DashboardListMenu',
   components: { IconMap, IconList, IconBase },
+  props: {
+    value: {},
+  },
+  watch: {
+    value(newValue) {
+      if (newValue !== this.selectedType) {
+        this.selectedType = newValue;
+      }
+    },
+  },
   data() {
     return {
       selectedType: 'list',
     };
+  },
+  methods: {
+    handleChange() {
+      this.$emit('input', this.selectedType);
+    },
   },
 };
 </script>
 
 <template>
   <div class="dashboard-list-menu">
-    <el-radio-group class="dashboard-list-menu__group" v-model="selectedType">
+    <el-radio-group class="dashboard-list-menu__group" v-model="selectedType" @change="handleChange">
       <el-radio-button label="list">
         <icon-base
           view-box="0 0 14 14"

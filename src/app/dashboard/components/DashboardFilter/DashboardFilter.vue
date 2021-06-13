@@ -235,16 +235,6 @@ export default {
   display: flex;
   flex-direction: column;
 
-  &::after {
-    position: absolute;
-    content: '';
-    width: 100%;
-    height: 40px;
-    top: 100%;
-    left: 0;
-    background: white;
-  }
-
   &__category {
     margin-bottom: 50px;
   }

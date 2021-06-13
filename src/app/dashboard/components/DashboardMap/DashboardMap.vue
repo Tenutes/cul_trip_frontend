@@ -1,14 +1,22 @@
 <script>
-import YandexMap from 'src/classes/YandexMap';
+import YandexMap from '@/classes/YandexMap';
+import { format, parseISO } from 'date-fns';
+import { getCroppedText, getEventDate, getSrc } from '@/utils/event';
 
 export default {
   name: 'DashboardMap',
   components: {},
-  props: {},
+  props: {
+    events: {
+      type: Array,
+      default: () => [],
+    },
+  },
   data() {
     return {
       mapObject: null,
       mapLoading: false,
+      expanded: false,
     };
   },
   mounted() {
@@ -21,6 +29,33 @@ export default {
         });
     }
   },
+  methods: {
+    getSrc(src) {
+      return getSrc(src);
+    },
+    getCroppedText(text) {
+      if (this.showMore) {
+        return text;
+      }
+      return getCroppedText(text, 75);
+    },
+    getDate(event) {
+      return getEventDate(event);
+    },
+    handleSwipeTop() {
+      this.expanded = true;
+    },
+    handleSwipeBottom() {
+      this.expanded = false;
+      this.$refs.content.scrollTop = 0;
+    },
+    format(...args) {
+      return format(...args);
+    },
+    parseISO(date) {
+      return parseISO(date);
+    },
+  },
   beforeDestroy() {
     this.mapObject && this.mapObject.destroy();
   },
@@ -29,18 +64,174 @@ export default {
 
 <template>
   <div class="dashboard-map">
-    <div class="dashboard-map__container" id="map" ref="map"></div>
+    <div class="dashboard-map__container" id="map" ref="map" v-loader="mapLoading"></div>
+    <div
+      class="dashboard-map__body"
+    >
+      <div
+        class="dashboard-map__body-inner"
+        :class="{ expanded }"
+      >
+        <div
+          class="dashboard-map__body-swiper"
+          v-touch:swipe.top="handleSwipeTop"
+          v-touch:swipe.bottom="handleSwipeBottom"
+        ></div>
+        <div
+          class="dashboard-map__body-inner-content"
+          ref="content"
+        >
+          <div
+            v-for="event in events"
+            :key="event.id"
+            class="dashboard-map__body-item"
+          >
+            <div class="dashboard-map__body-item-head">
+              <div class="dashboard-map__body-item-head-tags">
+                <div class="tag tag--спорт">спорт</div>
+                <div class="tag tag--дети">дети</div>
+              </div>
+              <div class="dashboard-map__body-item-head-actions"></div>
+            </div>
+            <h2 class="dashboard-map__body-item-title">{{ event.title }}</h2>
+            <p class="dashboard-map__body-item-description" v-html="getCroppedText(event.text)"></p>
+            <div class="dashboard-map__body-item-info">
+              <p></p>
+              <p>{{ getDate(event) }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .dashboard-map {
   width: 100%;
-  height: 100vh;
+  height: calc(var(--vh, 100vh) - 160px);
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
 
   &__container {
     width: 100%;
     height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
+
+  &__body {
+    position: relative;
+    z-index: 2;
+    pointer-events: none;
+    display: flex;
+    align-items: flex-start;
+    max-height: calc(var(--vh, 100vh) - 75px);
+    height: 100%;
+  }
+
+  &__body-inner {
+    position: relative;
+    pointer-events: all;
+    transform: translateY(calc(var(--vh, 100vh) - 350px));
+    transition: .25s;
+    padding-top: 20px;
+    width: 100%;
+    margin-top: auto;
+    height: 100%;
+
+    &.expanded {
+      transform: none;
+      padding-top: 0;
+
+      .dashboard-map {
+        &__body-inner-content {
+          padding-top: 30px;
+          pointer-events: all;
+        }
+
+        &__body-swiper {
+          height: 50px;
+        }
+      }
+    }
+  }
+
+  &__body-inner-content {
+    position: relative;
+    transition: .25s;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 16px 0 25px;
+    background: white;
+    border-radius: 10px 10px 0 0;
+    box-shadow: 0px -1px 4px rgba(0, 0, 0, 0.05);
+    max-height: 100%;
+    pointer-events: none;
+  }
+
+  &__body-swiper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 175px;
+    z-index: 10;
+
+    &::before {
+      position: absolute;
+      content: "";
+      width: 30px;
+      height: 4px;
+      left: 50%;
+      top: 10px;
+      transform: translateX(-50%);
+      background: rgba(40, 42, 49, 0.4);
+      border-radius: 10px;
+      z-index: 2;
+      box-shadow: 0 1px 3px rgba(white, .3);
+    }
+  }
+
+  &__body-item {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    padding-left: 16px;
+    padding-right: 16px;
+    border-bottom: 1px solid var(--col-grey);
+
+    &:last-child {
+      margin-bottom: 0;
+      border-bottom: 0;
+    }
+  }
+
+  &__body-item-head {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+
+  &__body-item-title {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 21px;
+    margin-bottom: 8px;
+  }
+
+  &__body-item-description {
+    font-size: 14px;
+    line-height: 18px;
+    margin-bottom: 8px;
+  }
+
+  &__body-item-info {
+    font-size: 14px;
+    line-height: 18px;
   }
 }
 </style>

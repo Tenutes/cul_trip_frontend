@@ -2,6 +2,7 @@
 import DashboardListItem from '@/app/dashboard/components/DashboardList/DashboardListItem';
 import YandexMap from '@/classes/YandexMap';
 import { getCroppedText, getEventDate, getSrc } from '@/utils/event';
+import { createScript } from '@/utils/element';
 import { mapActions, mapGetters } from 'vuex';
 import { format, parseISO } from 'date-fns';
 import IconArrow from '../../common/svg/IconArrow';
@@ -406,6 +407,29 @@ export default {
     pointer-events: none;
   }
 
+  &__body-swiper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 175px;
+    z-index: 10;
+
+    &::before {
+      position: absolute;
+      content: "";
+      width: 30px;
+      height: 4px;
+      left: 50%;
+      top: 10px;
+      transform: translateX(-50%);
+      background: rgba(40, 42, 49, 0.4);
+      border-radius: 10px;
+      z-index: 2;
+      box-shadow: 0 1px 3px rgba(white, .3);
+    }
+  }
+
   &__title {
     font-weight: 500;
     font-size: 16px;
@@ -453,29 +477,6 @@ export default {
     b {
       color: black;
       font-weight: 500;
-    }
-  }
-
-  &__body-swiper {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 175px;
-    z-index: 10;
-
-    &::before {
-      position: absolute;
-      content: "";
-      width: 30px;
-      height: 4px;
-      left: 50%;
-      top: 10px;
-      transform: translateX(-50%);
-      background: rgba(40, 42, 49, 0.4);
-      border-radius: 10px;
-      z-index: 2;
-      box-shadow: 0 1px 3px rgba(white, .3);
     }
   }
 
