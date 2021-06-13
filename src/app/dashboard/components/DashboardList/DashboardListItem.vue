@@ -32,6 +32,7 @@ export default {
       options: {
         autoUpdate: true,
         eventsPerView: 'auto',
+        spaceBetween: 16,
       },
     };
   },
@@ -62,6 +63,7 @@ export default {
     <div class="dashboard-list-item__title">
       <h2>{{ title }}</h2>
       <icon-base
+        v-if="false"
         class="dashboard-list-item__title-link"
         width="16"
         height="8"
@@ -196,8 +198,7 @@ export default {
   }
 
   &__slide {
-    width: calc(100% - 16px);
-    margin-right: 16px;
+    width: calc(100% - 26px);
     position: relative;
 
     &:last-child {

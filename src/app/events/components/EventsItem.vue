@@ -427,6 +427,7 @@ export default {
       border-radius: 10px;
       z-index: 2;
       box-shadow: 0 1px 3px rgba(white, .3);
+      pointer-events: none;
     }
   }
 
