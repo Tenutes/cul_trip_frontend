@@ -51,11 +51,10 @@ export default {
     ]),
     async onIdUpdate(id) {
       this.id = id;
-      await this.loadEvent(id).then(() => {
-        if (!this.event) {
-          this.$route.push({ name: 'main' });
-        }
-      });
+      await this.loadEvent(id);
+      if (!this.event) {
+        return this.$router.push({ name: 'dashboard' });
+      }
 
       if (!this.mapObject) {
         this.mapInitializing = true;
