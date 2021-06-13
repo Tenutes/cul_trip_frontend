@@ -12,7 +12,10 @@ import locale from 'element-ui/lib/locale/lang/ru-RU';
 import Vue2TouchEvents from 'vue2-touch-events';
 import './utils/viewport-height';
 
-Vue.use(Vue2TouchEvents);
+Vue.use(Vue2TouchEvents, {
+  disableClick: true,
+  swipeTolerance: 15,
+});
 Vue.use(httpPlugin, { store });
 Vue.use(ElementUI, { locale });
 sync(store, router);
