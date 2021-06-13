@@ -168,7 +168,7 @@ export default {
     overflow-x: hidden;
     padding: 16px 0 25px;
     background: white;
-    border-radius: 10px 10px 0 0;
+    border-radius: 15px 15px 0 0;
     box-shadow: 0px -1px 4px rgba(0, 0, 0, 0.05);
     max-height: 100%;
     pointer-events: none;

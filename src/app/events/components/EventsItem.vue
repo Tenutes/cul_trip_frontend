@@ -64,8 +64,14 @@ export default {
       if (!this.mapObject) {
         this.mapInitializing = true;
         this.mapObject = new YandexMap(this.$refs.map.id);
-        this.mapObject.init().finally(() => this.mapInitializing = false);
+        this.mapObject.setMapIcon(this.$refs.balloon.src);
+        await this.mapObject.init();
+        this.mapObject.drawPoint(this.event);
+        this.mapInitializing = false;
+      } else {
+        this.mapObject.drawPoint(this.event);
       }
+
     },
     getSrc(src) {
       return getSrc(src);
@@ -84,6 +90,7 @@ export default {
     },
     handleSwipeBottom() {
       this.expanded = false;
+      this.showMore = false;
       this.$refs.content.scrollTop = 0;
     },
     format(...args) {
@@ -98,6 +105,7 @@ export default {
 
 <template>
   <div class="event">
+    <img style="display: none" src="~@/assets/img/balloon.png" ref="balloon">
     <div class="event__map" ref="map" id="map" v-loading="fetching.event || mapInitializing"></div>
     <div class="event__header">
       <button class="event__header-back" @click="$router.go(-1)">
@@ -166,12 +174,10 @@ export default {
               <span>Больше...</span>
               <i class="el-icon-arrow-down"></i>
             </el-button>
-            <transition name="show">
-              <div class="event__info" v-if="!expanded">
-                <p>{{ getDate(event) }}</p>
-                <p></p>
-              </div>
-            </transition>
+            <div class="event__info" v-if="!expanded">
+              <p>{{ event.address }}</p>
+              <p>{{ getDate(event) }}</p>
+            </div>
           </div>
           <transition-group name="show">
             <template v-if="expanded">
@@ -208,7 +214,7 @@ export default {
                   <span class="end">{{ format(parseISO(event.date_to), 'yyyy-MM-dd HH:mm') }}</span>
                   <span class="timezone">Europe/Moscow</span>
                   <span class="title">{{ event.title }}</span>
-                  <!--                <span class="location">Location of the event</span>-->
+                  <span class="location">{{ event.address }}</span>
                 </el-button>
               </div>
               <div
@@ -294,6 +300,7 @@ export default {
   &__header,
   &__body {
     position: relative;
+    z-index: 2;
   }
 
   &__header {
@@ -355,7 +362,7 @@ export default {
 
   &__map {
     position: absolute;
-    z-index: -1;
+    z-index: 1;
     top: 0;
     left: 0;
     width: 100%;
@@ -410,7 +417,7 @@ export default {
     overflow-x: hidden;
     padding: 16px 0 50px;
     background: white;
-    border-radius: 10px 10px 0 0;
+    border-radius: 15px 15px 0 0;
     box-shadow: 0px -1px 4px rgba(0, 0, 0, 0.05);
     max-height: 100%;
     pointer-events: none;
@@ -481,8 +488,19 @@ export default {
   }
 
   &__info {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
     font-size: 14px;
     line-height: 18px;
+
+    p {
+      margin-right: 10px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
 
     b {
       color: black;
@@ -638,7 +656,7 @@ export default {
 }
 
 .show-enter-active, .show-leave-active {
-  transition: opacity 1s;
+  transition: opacity .25s;
 }
 
 .show-enter, .show-leave-to {
@@ -648,7 +666,7 @@ export default {
 <style lang="scss">
 .event {
   .el-loading-mask {
-    border-radius: 10px 10px 0 0;
+    border-radius: 15px 15px 0 0;
   }
 
   .addeventatc_icon {
