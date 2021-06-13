@@ -6,7 +6,7 @@ export const loadRecommendations = ({ dispatch }) => {
   return http
     .get('/events')
     .then(({ data }) => {
-      dispatch('setRecommendations', data);
+      dispatch('setRecommendations', data.slice(0, 5));
       dispatch('setFetching', { filed: 'recommendations', value: false });
     });
 };
@@ -16,7 +16,7 @@ export const loadNewEvents = ({ dispatch }) => {
   return http
     .get('/events')
     .then(({ data }) => {
-      dispatch('setNewEvents', data);
+      dispatch('setNewEvents', data.slice(5, 10));
       dispatch('setFetching', { filed: 'newEvents', value: false });
     });
 };
@@ -26,7 +26,7 @@ export const loadCompilations = ({ dispatch }) => {
   return http
     .get('/events')
     .then(({ data }) => {
-      dispatch('setCompilations', data);
+      dispatch('setCompilations', data.slice(10, 15));
       dispatch('setFetching', { filed: 'compilations', value: false });
     });
 };
