@@ -88,8 +88,7 @@ export default {
           </div>
           <div class="dashboard-list-item__slide-info">
             <p class="dashboard-list-item__slide-title">{{ slide.title }}</p>
-            <p class="dashboard-list-item__slide-description">
-              {{ getCroppedText(slide.text) }}
+            <p class="dashboard-list-item__slide-description" v-html="getCroppedText(slide.text)">
             </p>
             <div class="dashboard-list-item__slide-action">
               <p>{{ getDate(slide) }}</p>
