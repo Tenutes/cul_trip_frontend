@@ -6,20 +6,37 @@ import IconSearch from '../../../common/svg/IconSearch';
 import { AGES, DAY_TYPES, WEEK_TYPES } from '../../constants';
 import { prepareForPythonFormData } from '@/utils/py';
 
+/**
+ * Данные по вкладке дата
+ * @returns {{period_end: null, period_start: null, day_time: null}}
+ */
 const dateTabFilterData = () => ({
   period_start: null,
   period_end: null,
   day_time: null,
 });
 
+/**
+ * Данные со вкладки расписание
+ * @returns {{week_day: null}}
+ */
 const scheduleTabFilterData = () => ({
   week_day: null,
 });
 
+
+/**
+ * Данные со вкладки маршрут
+ * @returns {{week_day: null}}
+ */
 const routeTabFilterData = () => ({
   address: null,
 });
 
+/**
+ * Собранные данные
+ * @returns {{period_end: null, event_type: null, restriction_age: null, period_start: null, payment: null, week_day: null, day_time: null}}
+ */
 const emptyFilterData = () => ({
   restriction_age: null,
   payment: null,
