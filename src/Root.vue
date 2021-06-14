@@ -2,6 +2,9 @@
 import { createScript } from './utils/element';
 
 export default {
+  /**
+   * Создаем скрипты яндекса и шейринга в документы
+   */
   created() {
     createScript('https://api-maps.yandex.ru/2.1/?lang=ru_RU', { id: 'yamap' });
     createScript('https://addevent.com/libs/atc/1.6.1/atc.min.js', { id: 'addToCalendar', async: true, defer: true });

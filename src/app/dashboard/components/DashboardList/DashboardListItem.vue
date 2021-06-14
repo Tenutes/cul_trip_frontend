@@ -36,14 +36,6 @@ export default {
       },
     };
   },
-  computed: {},
-  watch: {},
-  created() {
-  },
-  mounted() {
-  },
-  updated() {
-  },
   methods: {
     getSrc(src) {
       return getSrc(src);

@@ -97,15 +97,29 @@ export default {
     reset() {
       this.formData = { ...emptyFilterData() };
     },
+    /**
+     * При сабмите гененрируем данные из фильтра и отправляем на бек,
+     * Эмитим событие наверх, открывая рез-ты поиска
+     */
     submit() {
       this.loadEvents(this.correctFormData)
         .then(data => {
           this.$emit('filter-loads', data)
         });
     },
+    /**
+     * Дизейблин даты до, если выбрано начало и даты идут до этого начала
+     * @param date
+     * @returns {boolean}
+     */
     isDisabledEnd(date) {
       return this.formData.period_start && date < this.formData.period_start;
     },
+    /**
+     * Дизейблин даты от, если выбран конец и даты идут после этого конца
+     * @param date
+     * @returns {boolean}
+     */
     isDisabledStart(date) {
       return this.formData.period_end && date > this.formData.period_end;
     },

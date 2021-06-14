@@ -13,7 +13,6 @@ export default {
     DashboardSearch,
     DashboardListMenu,
   },
-  props: {},
   data() {
     return {
       yaMap: null,

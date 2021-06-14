@@ -1,5 +1,10 @@
 import { makeId } from './id';
 
+/**
+ * Создание node скрипта
+ * @param {string} src
+ * @param {object} options
+ */
 export const createScript = (src, options = { type: 'text/javascript', defer: false, async: false }) => {
   const script = document.createElement('script');
   script.src = src;
@@ -11,4 +16,10 @@ export const createScript = (src, options = { type: 'text/javascript', defer: fa
   appendTo(script, document.head);
 };
 
+/**
+ * Вставляем node в html
+ * @param {HTMLElement} el
+ * @param {HTMLElement} to
+ * @returns {*|ActiveX.IXMLDOMNode}
+ */
 export const appendTo = (el, to) => to.appendChild(el);

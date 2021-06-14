@@ -3,6 +3,12 @@ import { format, getDayOfYear, parseISO } from 'date-fns';
 import { MONTH } from './locale';
 import { imgUrl } from '../config';
 
+/**
+ * Обрезаем текст, добавляя в конец ,,,
+ * @param text
+ * @param croppLength
+ * @returns {string|*}
+ */
 export const getCroppedText = (text, croppLength) => {
   croppLength = croppLength || MAX_TEXT_LENGTH;
   if (text.length < croppLength) {
@@ -21,7 +27,12 @@ export const getCroppedText = (text, croppLength) => {
   return `${text.substring(0, endedWith)}${ending}`;
 };
 
-
+/**
+ * Форматируем даты ивента
+ * @param date_from
+ * @param date_to
+ * @returns {string}
+ */
 export const getEventDate = ({ date_from, date_to }) => {
   const dayFrom = getDayOfYear(parseISO(date_from));
   const dayTo = getDayOfYear(parseISO(date_to));
@@ -41,4 +52,9 @@ export const getEventDate = ({ date_from, date_to }) => {
   )} ${monthTo}`;
 };
 
+/**
+ * Получаем src до картинки
+ * @param src
+ * @returns {string}
+ */
 export const getSrc = src => `${imgUrl}${src}`;

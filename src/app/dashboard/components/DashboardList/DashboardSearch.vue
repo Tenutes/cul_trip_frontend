@@ -14,7 +14,6 @@ export default {
     IconSearch,
     IconBase,
   },
-  props: {},
   data() {
     return {
       search: null,
@@ -117,9 +116,6 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-
-  &__body {
   }
 }
 

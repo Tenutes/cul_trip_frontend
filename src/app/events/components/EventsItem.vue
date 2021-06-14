@@ -31,6 +31,9 @@ export default {
     ]),
   },
   watch: {
+    /**
+     * Смотрим за изменением в route id ивента
+     */
     $route: {
       deep: true,
       async handler(n) {
@@ -50,6 +53,15 @@ export default {
     ...mapActions('Events', [
       'loadEvent',
     ]),
+    /**
+     * Метод при обновлении id в router
+     * Скроллим верх элемент с информацией о ивенте
+     * Если не находит ивента - редиректим на все
+     * Если не проинициализирована карта - инициализируем
+     * Рисуем точку на ней
+     * @param id
+     * @returns {Promise<Route>}
+     */
     async onIdUpdate(id) {
       if (this.$refs.content) {
         this.$refs.content.scrollTop = 0;
@@ -99,6 +111,9 @@ export default {
     parseISO(date) {
       return parseISO(date);
     },
+  },
+  beforeDestroy() {
+    this.mapObject && this.mapObject.destroy();
   },
 };
 </script>

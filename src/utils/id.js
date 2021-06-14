@@ -1,3 +1,8 @@
+/**
+ * Генерируем уникальный id заданной длины
+ * @param length
+ * @returns {string}
+ */
 export const makeId = length => {
   let id = '';
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

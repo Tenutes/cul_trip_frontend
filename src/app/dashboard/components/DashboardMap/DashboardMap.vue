@@ -1,7 +1,8 @@
 <script>
 import YandexMap from '@/classes/YandexMap';
-import { format, parseISO } from 'date-fns';
 import { getCroppedText, getEventDate, getSrc } from '@/utils/event';
+import { format, parseISO } from 'date-fns';
+import { isEqual } from 'lodash';
 
 export default {
   name: 'DashboardMap',
@@ -19,17 +20,39 @@ export default {
       expanded: false,
     };
   },
-  async mounted() {
-    if (!this.mapObject) {
-      this.mapInitializing = true;
-      this.mapObject = new YandexMap(this.$refs.map.id);
-      this.mapObject.setMapIcon(this.$refs.balloon.src);
-      await this.mapObject.init();
-      this.mapObject.drawPoints(this.events);
-      this.mapInitializing = false;
-    }
+  watch: {
+    events(n, o) {
+      if (!isEqual(n, o)) {
+        this.initMap();
+      }
+    },
+  },
+  /**
+   * Если не проинициализирована карта - инициализируем
+   * Рисуем точки на ней
+   * @returns {Promise<Route>}
+   */
+  mounted() {
+    this.initMap();
   },
   methods: {
+    /**
+     * Если не проинициализирована карта - инициализируем
+     * Рисуем точки на ней
+     * @returns {Promise<Route>}
+     */
+    async initMap() {
+      if (!this.mapObject) {
+        this.mapInitializing = true;
+        this.mapObject = new YandexMap(this.$refs.map.id);
+        this.mapObject.setMapIcon(this.$refs.balloon.src);
+        await this.mapObject.init();
+        this.mapObject.drawPoints(this.events);
+        this.mapInitializing = false;
+      } else {
+        this.mapObject.drawPoints(this.events);
+      }
+    },
     getSrc(src) {
       return getSrc(src);
     },
@@ -43,7 +66,7 @@ export default {
       return getEventDate(event);
     },
     handleSwipeTop() {
-      this.expanded = true;
+      this.expanded = this.events.length !== 0;
     },
     handleSwipeBottom() {
       this.expanded = false;
@@ -82,31 +105,36 @@ export default {
           class="dashboard-map__body-inner-content"
           ref="content"
         >
-          <div
-            v-for="event in events"
-            :key="event.id"
-            class="dashboard-map__body-item"
-          >
-            <div class="dashboard-map__body-item-head">
-              <div class="dashboard-map__body-item-head-tags" v-if="event.tags && event.tags.length">
-                <p
-                  v-for="(tag, index) in event.tags"
-                  :key="index"
-                  :class="`tag--${tag}`"
-                  class="tag"
-                >
-                  {{ tag }}
-                </p>
+          <template v-if="events.length === 0">
+            <h2 class="dashboard-map__title">К сожалению, событий не найдено</h2>
+          </template>
+          <template v-else>
+            <div
+              v-for="event in events"
+              :key="event.id"
+              class="dashboard-map__body-item"
+            >
+              <div class="dashboard-map__body-item-head">
+                <div class="dashboard-map__body-item-head-tags" v-if="event.tags && event.tags.length">
+                  <p
+                    v-for="(tag, index) in event.tags"
+                    :key="index"
+                    :class="`tag--${tag}`"
+                    class="tag"
+                  >
+                    {{ tag }}
+                  </p>
+                </div>
+                <div class="dashboard-map__body-item-head-actions"></div>
               </div>
-              <div class="dashboard-map__body-item-head-actions"></div>
+              <h2 class="dashboard-map__body-item-title">{{ event.title }}</h2>
+              <p class="dashboard-map__body-item-description" v-html="getCroppedText(event.text)"></p>
+              <div class="dashboard-map__body-item-info">
+                <p></p>
+                <p>{{ getDate(event) }}</p>
+              </div>
             </div>
-            <h2 class="dashboard-map__body-item-title">{{ event.title }}</h2>
-            <p class="dashboard-map__body-item-description" v-html="getCroppedText(event.text)"></p>
-            <div class="dashboard-map__body-item-info">
-              <p></p>
-              <p>{{ getDate(event) }}</p>
-            </div>
-          </div>
+          </template>
         </div>
       </div>
     </div>
@@ -121,6 +149,12 @@ export default {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
+
+  &__title {
+    margin: 0;
+    padding: 0 16px;
+    font-size: 22px;
+  }
 
   &__container {
     width: 100%;
@@ -179,6 +213,7 @@ export default {
     box-shadow: 0px -1px 4px rgba(0, 0, 0, 0.05);
     max-height: 100%;
     pointer-events: none;
+    min-height: 200px;
   }
 
   &__body-swiper {
