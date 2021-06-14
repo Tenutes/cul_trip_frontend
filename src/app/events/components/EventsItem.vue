@@ -111,6 +111,9 @@ export default {
     parseISO(date) {
       return parseISO(date);
     },
+    handleClick() {
+      this.expanded = !this.expanded;
+    },
   },
   beforeDestroy() {
     this.mapObject && this.mapObject.destroy();
@@ -171,6 +174,7 @@ export default {
       >
         <div
           class="event__body-swiper"
+          @click="handleClick"
           v-touch:swipe.top="handleSwipeTop"
           v-touch:swipe.bottom="handleSwipeBottom"
         ></div>
@@ -244,7 +248,11 @@ export default {
                 v-if="event.recommendations.length"
                 key="recommendations"
               >
-                <dashboard-list-item title="Похожие мероприятия" :events="event.recommendations"/>
+                <dashboard-list-item
+                  class="dashboard-list-item--event"
+                  title="Похожие мероприятия"
+                  :events="event.recommendations"
+                />
               </div>
               <div class="event__body-block" key="timeline" v-if="false">
                 <div class="event__timeline">

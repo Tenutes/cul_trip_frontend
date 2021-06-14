@@ -72,6 +72,9 @@ export default {
       this.expanded = false;
       this.$refs.content.scrollTop = 0;
     },
+    handleClick() {
+      this.expanded = !this.expanded;
+    },
     format(...args) {
       return format(...args);
     },
@@ -98,6 +101,7 @@ export default {
       >
         <div
           class="dashboard-map__body-swiper"
+          @click="handleClick"
           v-touch:swipe.top="handleSwipeTop"
           v-touch:swipe.bottom="handleSwipeBottom"
         ></div>

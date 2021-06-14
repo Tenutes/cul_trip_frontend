@@ -154,6 +154,15 @@ export default {
     margin-bottom: 0;
   }
 
+  &--event {
+    .dashboard-list-item {
+      &__slide {
+        width: calc(100% - 26px);
+        margin-right: 16px;
+      }
+    }
+  }
+
   &__title {
     margin-bottom: 10px;
     display: flex;
