@@ -16,5 +16,6 @@ export default {
 .dashboard {
   width: 100%;
   overflow: hidden;
+  min-height: var(--vh, 100vh);
 }
 </style>

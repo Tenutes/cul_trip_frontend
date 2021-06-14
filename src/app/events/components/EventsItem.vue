@@ -246,7 +246,7 @@ export default {
               >
                 <dashboard-list-item title="Похожие мероприятия" :events="event.recommendations"/>
               </div>
-              <div class="event__body-block" key="timeline">
+              <div class="event__body-block" key="timeline" v-if="false">
                 <div class="event__timeline">
                   <div class="event__timeline-block">
                     <div class="event__timeline-item event__timeline-item--stop">

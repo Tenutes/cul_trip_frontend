@@ -1,6 +1,6 @@
 <script>
-import DashboardMap from '../DashboardMap/DashboardMap';
 import { mapActions, mapGetters } from 'vuex';
+import DashboardMap from '../DashboardMap/DashboardMap';
 import DashboardListItem from './DashboardListItem';
 import DashboardListMenu from './DashboardListMenu';
 import DashboardSearch from './DashboardSearch';
@@ -73,7 +73,14 @@ export default {
         <div class="dashboard-list__back">
           <el-button type="info" @click="returnToMain">Вернуться</el-button>
         </div>
-        <dashboard-list-item :swiper="false" title="Результаты поиска" :events="filterResults"/>
+        <template v-if="filterResults.length">
+          <dashboard-list-item :swiper="false" title="Результаты поиска" :events="filterResults"/>
+        </template>
+        <template v-else>
+          <div class="dashboard-list__block">
+            <p>К сожалению, ничего не найдено.</p>
+          </div>
+        </template>
       </template>
     </template>
   </div>
@@ -95,6 +102,10 @@ export default {
     .el-button {
       width: 100%;
     }
+  }
+
+  &__block {
+    padding: 0 20px;
   }
 }
 </style>
